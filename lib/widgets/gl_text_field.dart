@@ -1,9 +1,10 @@
+
 import 'package:art_market/constance/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class BrTextField extends StatefulWidget {
-  const BrTextField({
+class GlTextField extends StatefulWidget {
+  const GlTextField({
     Key? key,
     required this.placeholder,
     required this.lableText,
@@ -39,10 +40,10 @@ class BrTextField extends StatefulWidget {
   final TextInputType? textInputType;
 
   @override
-  State<BrTextField> createState() => _BrTextFieldState();
+  State<GlTextField> createState() => _GlTextFieldState();
 }
 
-class _BrTextFieldState extends State<BrTextField> {
+class _GlTextFieldState extends State<GlTextField> {
   @override
   Widget build(BuildContext context) {
     return Expanded(

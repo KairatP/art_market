@@ -1,6 +1,6 @@
 import 'package:art_market/constance/colors.dart';
 import 'package:art_market/constance/text_style.dart';
-import 'package:art_market/screens/auth/bloc/auth_bloc.dart';
+import 'package:art_market/screens/auth/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
 
 class AuthTougleWidget extends StatelessWidget {
@@ -12,8 +12,8 @@ class AuthTougleWidget extends StatelessWidget {
     required this.sate,
   }) : super(key: key);
 
-  final AuthBloc bloc;
-  final AuthControlState sate;
+  final LoginBloc bloc;
+  final LoginControlState sate;
   final Function(bool selectedindex) onChanged;
   final bool? selectedindex;
   
@@ -42,7 +42,7 @@ class AuthTougleWidget extends StatelessWidget {
             if (index == 0) {
               bloc.add(RegTougleEvent(
                   mainAuthTougle: true,
-                  registartionScreen: sate.regState,
+                  registartionScreen: sate.registartionScreen,
                   forgotScreen: sate.forgotScreen, loginScreen: sate.loginScreen, forgotPasswordConfirmScreen: sate.forgotPasswordConfirmScreen, passwordUpdateScreen: sate.passwordUpdateScreen));
               // onChanged(true);
               isSelected = [true, false];
@@ -51,7 +51,7 @@ class AuthTougleWidget extends StatelessWidget {
               isSelected = [false, true];
               bloc.add(RegTougleEvent(
                   mainAuthTougle: false,
-                  registartionScreen: sate.regState,
+                  registartionScreen: sate.registartionScreen,
                   forgotScreen: sate.forgotScreen, loginScreen: sate.loginScreen, forgotPasswordConfirmScreen: sate.forgotPasswordConfirmScreen, passwordUpdateScreen: sate.passwordUpdateScreen));
             }
           },

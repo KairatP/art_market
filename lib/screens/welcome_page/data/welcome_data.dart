@@ -1,20 +1,20 @@
 class WelcomePageData {
   List<Map<String, String>> pageData = [
     {
-      "title": "First page",
-      "subTitle": "description of first page. You can write anything in the text'",
+      "title": "Welcome",
+      "subTitle": "Art market platform is unique place for selling arts from Worldwide",
       "imagePath": "assets/images/welcome.png",
       "buttonName": "Next",
     },
     {
-      "title": "Second page title information",
-      "subTitle": "description of second page. You can write anything in the text,  wkfklwjjwejcjvwj  jewj ewj je jewjlw; wkhe  h eh hew eh  hlw  eh h eh  elk ke beh ehk ehk hkle kleh",
+      "title": "For Buyers",
+      "subTitle": "Do not transfer any money before makes an agreements! You can search works and contact with sellers directly by contact information which you can find in each posts",
       "imagePath": "assets/images/therd.png",
       "buttonName": "Next",
     },
     {
-      "title": "Thierd page title information",
-      "subTitle": "description of thierd page. You can write anything in the text",
+      "title": "For Sellers",
+      "subTitle": "Do not send your before makes an agreements! Try to keep all necessary information in posts to ensure your works to recommended for potential buyers.",
       "imagePath": "assets/images/second.png",
       "buttonName": "Get started",
     }

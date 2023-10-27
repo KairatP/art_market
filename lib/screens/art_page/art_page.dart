@@ -16,6 +16,7 @@ class ArtPage extends StatefulWidget {
 
 class _ArtPageState extends State<ArtPage> {
   final ArtBloc artBloc = ArtBloc();
+
   @override
   void initState() {
     artBloc.add(InitialOrderEvent());
@@ -37,20 +38,29 @@ class _ArtPageState extends State<ArtPage> {
       // },
       listener: (context, state) {
         if (state is ArtFilterActionState) {
-          Navigator.pushNamed(context, RouterStructure.artFilter);
+          // List<List<String>>? myFilterData =
+          Navigator.pushNamed(context, RouterStructure.artFilter,
+                  arguments: artBloc);
+          // if (myFilterData!.isNotEmpty) {
+          //   artBloc.add(FilterUserEvent(
+          //       city: myFilterData.last, country: myFilterData.first));
+          // }
         }
+        // if (state is ArtFilterrSelectedState) {
+        //   artBloc.add(FilterViewSelectedEvent());
+        // }
       },
       builder: (context, state) {
         switch (state.runtimeType) {
-          case OrderLoadingState:
+          case ArtLoadingState:
             return const Scaffold(
                 body: Center(
                     child: CircularProgressIndicator(
               color: AppColors.mainColor,
             )));
 
-          case OrderSuccsesState:
-            final successState = state as OrderSuccsesState;
+          case ArtLoadedSuccsesState:
+            final successState = state as ArtLoadedSuccsesState;
             return Scaffold(
               appBar: artAppBar(context, artBloc),
               body: Column(
@@ -66,6 +76,10 @@ class _ArtPageState extends State<ArtPage> {
                           padding: const EdgeInsets.all(5),
                           child: Image.asset('assets/icons/search.png'),
                         ),
+                        onChanged: (value) {
+                          // Call bloc event for search
+                          artBloc.add(SearchUserEvent(query: value));
+                        },
                       )),
                   Expanded(
                       // List view
@@ -86,7 +100,7 @@ class _ArtPageState extends State<ArtPage> {
                 ],
               ),
             );
-          case OrderErrorState:
+          case ArtLoadErrorState:
             return const Scaffold(
               body: Center(
                 child: Text("Error"),

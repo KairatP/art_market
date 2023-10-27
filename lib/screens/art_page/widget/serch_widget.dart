@@ -2,7 +2,7 @@ import 'package:art_market/constance/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class SearchFieald extends StatefulWidget {
+class SearchFieald extends StatelessWidget {
   const SearchFieald({
     Key? key,
     required this.lableText,
@@ -33,11 +33,6 @@ class SearchFieald extends StatefulWidget {
   final TextInputType? textInputType;
 
   @override
-  State<SearchFieald> createState() => _FilterButtonState();
-}
-
-class _FilterButtonState extends State<SearchFieald> {
-  @override
   Widget build(BuildContext context) {
     return Container(
       height: 40,
@@ -47,13 +42,13 @@ class _FilterButtonState extends State<SearchFieald> {
       ),
       child: TextFormField(
         cursorColor: AppColors.blackColor,
-        keyboardType: widget.textInputType,
-        inputFormatters: widget.inputFormatters,
+        keyboardType: textInputType,
+        inputFormatters: inputFormatters,
         scrollPadding: EdgeInsets.zero,
-        validator: widget.validator,
-        controller: widget.controller,
-        obscureText: widget.obscureText,
-        onChanged: widget.onChanged,
+        validator: validator,
+        controller: controller,
+        obscureText: obscureText,
+        onChanged: onChanged,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.zero,
           enabledBorder: OutlineInputBorder(
@@ -69,9 +64,9 @@ class _FilterButtonState extends State<SearchFieald> {
                 const BorderSide(color:AppColors.transparentColor),
             borderRadius: BorderRadius.circular(10),
           ),
-          labelText: widget.lableText,
+          labelText: lableText,
           labelStyle: const TextStyle(color: AppColors.greyColor),
-          prefixIcon: widget.prefixIcon,
+          prefixIcon: prefixIcon,
         ),
       ),
     );

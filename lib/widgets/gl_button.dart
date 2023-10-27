@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 
-class BrButton extends StatelessWidget {
-  const BrButton({
+class GlButton extends StatelessWidget {
+  const GlButton({
     Key? key,
     this.label = 'Press',
     this.labelWidget,
@@ -25,7 +25,7 @@ class BrButton extends StatelessWidget {
         iconSize = 0,
         super(key: key);
 
-  const BrButton.text({
+  const GlButton.text({
     Key? key,
     this.label = 'Press',
     this.labelWidget,
@@ -45,7 +45,7 @@ class BrButton extends StatelessWidget {
         iconSize = 0,
         super(key: key);
 
-  const BrButton.icon({
+  const GlButton.icon({
     Key? key,
     this.label = 'Press',
     this.labelWidget,

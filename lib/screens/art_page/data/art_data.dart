@@ -82,6 +82,47 @@ class ArtData {
   },
   ];
 
+
+  static List<Map<String, dynamic>> filteredList = [
+  {
+    "id": "0003",
+    "name": "Bob Johnson",
+    "avatar": "https://i0.wp.com/flickside.com/wp-content/uploads/2022/11/highest-paid-actors.jpg?fit=1200%2C900&ssl=1",
+    "email": "bob.johnson@example.com",
+    "phone": "+77017773333",
+    "country": "Canada",
+    "city": "Maplewood",
+    "price": "40000",
+    "width": "250",
+    "hight": "150",
+    "color": "Oil color",
+    "pano": "Canvas",
+    "description": "Bla lalalall laldalalslasclalcaslc",
+    "imageUrl": [
+      "https://artprojectsforkids.org/wp-content/uploads/2022/05/Paul-Klee-Art-Project-768x996.jpg.webp"
+    ]
+  },
+  {
+    "id": "0004",
+    "name": "Eva Martinez",
+    "avatar": "https://cloudfront-eu-central-1.images.arcpublishing.com/thenational/DGEMGQLWMHWPJUIMIZCGUOKBAM.jpg",
+    "email": "eva.martinez@example.com",
+    "phone": "+77017774444",
+    "country": "Spain",
+    "city": "Barcelona",
+    "price": "1700",
+    "width": "2000",
+    "hight": "1000",
+    "color": "Oil color",
+    "pano": "Canvas",
+    "description": "Bla lalalall laldalalslasclalcaslc",
+    "imageUrl": [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK_zwulH07dowrqN2BLyqUYPuYM8kv92oCpQ&usqp=CAU",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2J6GbFqDYeXB889JbcluwKQw3wYtJakL1Ug&usqp=CAU",
+    ]
+  },
+  ];
+
 }
 
 

@@ -1,5 +1,7 @@
 import 'package:art_market/constance/colors.dart';
-import 'package:art_market/screens/auth/bloc/auth_bloc.dart';
+import 'package:art_market/dependencies/injection_container.dart';
+import 'package:art_market/router/router_structure.dart';
+import 'package:art_market/screens/auth/bloc/login_bloc.dart';
 import 'package:art_market/screens/auth/screens/login/forgot_password_confirm_screen.dart';
 import 'package:art_market/screens/auth/screens/login/forgot_password_screen.dart';
 import 'package:art_market/screens/auth/screens/login/login.dart';
@@ -7,6 +9,8 @@ import 'package:art_market/screens/auth/screens/login/password_update_screen.dar
 import 'package:art_market/screens/auth/screens/registration/reg_confirm_screen.dart';
 import 'package:art_market/screens/auth/screens/registration/registration.dart';
 import 'package:art_market/screens/auth/widgets/touggle_widget.dart';
+import 'package:art_market/widgets/gl_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -21,7 +25,7 @@ class AuthScreen extends StatefulWidget {
   final Box tokenBox = Hive.box('tokens');
 
 class _AuthScreenState extends State<AuthScreen> {
-  final AuthBloc authBloc = AuthBloc();
+  final LoginBloc authBloc = LoginBloc(authService: getIt());
 
   @override
   void initState() {
@@ -32,16 +36,105 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthBloc, AuthState>(
+    return BlocConsumer<LoginBloc, LoginState>(
       bloc: authBloc,
-      listenWhen: (previous, curent) => curent is AuthActionState,
-      buildWhen: (previous, curent) => curent is! AuthActionState,
+      listenWhen: (previous, curent) => curent is LoginActionState,
+      buildWhen: (previous, curent) => curent is! LoginActionState,
       listener: (context, state) {
+        if (state is LoginSusseccActionState) {
+          Navigator.pushNamedAndRemoveUntil(context, RouterStructure.tabBar, (route) => false);
+              // loginStatus = true;
+        } else if (state is IncorrectDataState) {
+          showCupertinoModalPopup(
+            context: context,
+            builder: (context) {
+              return CupertinoAlertDialog(
+                title: const Text('Error'),
+                content: const Text("Has been applied incorrect data"),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 15,
+                    ),
+                    child: GlButton(
+                      label: 'Ok',
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        } else if (state is LoginFailedState) {
+          showCupertinoModalPopup(
+            context: context,
+            builder: (context) {
+              return CupertinoAlertDialog(
+                title: const Text('Error'),
+                content: const Text("UNKNOWN_ERROR"),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 15,
+                    ),
+                    child: GlButton(
+                      label: 'Ok',
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        } else if (state is UserSussecufulyCreatedState) {
+          showCupertinoModalPopup(
+            context: context,
+            builder: (context) {
+              return CupertinoAlertDialog(
+                title: const Text('Confirmation message'),
+                content: const Text("Account has successfully created"),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 15,
+                    ),
+                    child: GlButton(
+                      label: 'Ok',
+                      
+                      onPressed: () => Navigator.pop(context),
+                      // authBloc.add(RegTougleEvent(mainAuthTougle: true, forgotScreen: true, registartionScreen: true, loginScreen: true, forgotPasswordConfirmScreen: true, passwordUpdateScreen: true)),
+                      
+                    ),
+                  ),
+                ],
+                
+              );
+            },
+          );
+        }
       },
       builder: (context, state) {
         switch (state.runtimeType) {
-          case AuthControlState:
-          final authState = state as AuthControlState;
+
+          // case IncorrectDataState:
+          //   return const Scaffold(
+          //     body: Center(
+          //       child: Text("Has been applied incorrect data",
+          //           style: AppTextStyle.appBarTextStyle,
+          //   )));
+
+          // case LoginFailedState:
+          //   return const Scaffold(
+          //     body: Center(
+          //       child: Text("UNKNOWN_ERROR",
+          //           style: AppTextStyle.appBarTextStyle,
+          // )));
+
+          case LoginControlState:
+          final loginState = state as LoginControlState;
             return Scaffold(
               backgroundColor: AppColors.whiteColor,
               body: 
@@ -52,15 +145,10 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                     AuthTougleWidget(
                       onChanged: (index) {
-                        authState.mainTougleState = index;
-
-
-                        // setState(() {
-                          
-                        // });
+                        loginState.mainTougleState = index;
                       }, 
                       bloc: authBloc, 
-                      sate: authState,
+                      sate: loginState,
                     ),
                     const SizedBox(
                       height: 5,
@@ -80,35 +168,35 @@ class _AuthScreenState extends State<AuthScreen> {
                             topRight: Radius.circular(15),
                           ),
                         ),
-                        child: authState.mainTougleState 
+                        child: loginState.mainTougleState 
                         ?
-                        authState.loginScreen 
+                        loginState.loginScreen 
                         ?
-                        Login(sate: authState, bloc: authBloc,) 
+                        Login(sate: loginState, bloc: authBloc,) 
                         :
-                        authState.forgotScreen 
+                        loginState.forgotScreen 
                         ?
-                        ForgotPasswordScreen(sate: authState, bloc: authBloc,)
+                        ForgotPasswordScreen(sate: loginState, bloc: authBloc,)
                         :
-                        authState.forgotPasswordConfirmScreen
+                        loginState.forgotPasswordConfirmScreen
                         ?
-                        ForgotPswConfirmScreen(sate: authState, bloc: authBloc)
+                        ForgotPswConfirmScreen(sate: loginState, bloc: authBloc)
                         :
-                        PasswordUpdateScreen(sate: authState, bloc: authBloc)
+                        PasswordUpdateScreen(sate: loginState, bloc: authBloc)
                         :
-                        authState.regState 
+                        loginState.registartionScreen 
                         ?
                         // ? 
-                        Registration(sate: authState, bloc: authBloc)
+                        Registration(sate: loginState, bloc: authBloc)
                         : 
-                        RegConfirmScreen(sate: authState, bloc: authBloc,),
+                        RegConfirmScreen(sate: loginState, bloc: authBloc,),
                       )
                     )
                   ]
                 )
 
             );
-          case AuthErrorState:
+          case LoginErrorState:
             return const Scaffold(
               body: Center(
                 child: Text("Error"),

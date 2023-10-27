@@ -1,7 +1,7 @@
 import 'package:art_market/constance/colors.dart';
 import 'package:art_market/constance/text_style.dart';
-import 'package:art_market/screens/art_detail/widget/art_detail_page_widget.dart';
-import 'package:art_market/screens/art_page/model/order_model.dart';
+import 'package:art_market/screens/art_page/screens/art_detail_page/widget/art_detail_page_widget.dart';
+import 'package:art_market/screens/art_page/model/art_model.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +24,7 @@ class _ArtDetailState extends State<ArtDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(backgroundColor: AppColors.whiteColor,),
       body: Column(
         children: [
           Expanded(
@@ -231,7 +231,7 @@ class _ArtDetailState extends State<ArtDetail> {
                                   margin: const EdgeInsets.only(left: 5),
                                   child: Text(
                                     textAlign: TextAlign.start,
-                                    widget.artModelType.hight,
+                                    widget.artModelType.height,
                                     style: AppTextStyle.blackBodyTextStyle,
                                     maxLines: 1,
                                   ),

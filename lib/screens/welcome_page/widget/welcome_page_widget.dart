@@ -46,7 +46,7 @@ class WelcomePageWidget extends StatelessWidget {
           child: Text(
             subTitle,
             textAlign: TextAlign.center,
-            maxLines: 3,
+            maxLines: 5,
             style: TextStyle(
               color: Colors.black.withOpacity(0.5),
               fontSize: 14,

@@ -1,7 +1,7 @@
 import 'package:art_market/constance/colors.dart';
 import 'package:art_market/constance/text_style.dart';
 import 'package:art_market/router/router_structure.dart';
-import 'package:art_market/screens/art_page/model/order_model.dart';
+import 'package:art_market/screens/art_page/model/art_model.dart';
 import 'package:flutter/material.dart';
 
 class ArtCell extends StatelessWidget {

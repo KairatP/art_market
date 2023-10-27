@@ -1,14 +1,25 @@
+
+
 import 'package:art_market/constance/colors.dart';
+import 'package:art_market/dependencies/injection_container.dart';
+import 'package:art_market/dependencies/login_hive.dart';
 import 'package:art_market/router/router.dart';
 import 'package:art_market/router/router_structure.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-bool showHomePage = true;
+
+
+
+
+bool welcomePage = true;
 void main() async {
+  // setupLocator();
+  await initGetIt();
+  await initHive();
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  showHomePage = preferences.getBool('On_Boardingg') ?? true;
+  welcomePage = preferences.getBool('On_Boardingg') ?? true;
   runApp(const MyApp());
 }
 
@@ -18,10 +29,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: AppColors.mainColor),
+      theme: ThemeData(primarySwatch: AppColors.greyColor),
       onGenerateRoute: MetaRouter.onGenerateRoute,
       initialRoute:
-          showHomePage ? RouterStructure.welcome : RouterStructure.tabBar,
+          welcomePage ? RouterStructure.welcome : RouterStructure.tabBar,
     );
   }
 }

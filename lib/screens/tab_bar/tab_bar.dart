@@ -1,7 +1,10 @@
+import 'package:animations/animations.dart';
 import 'package:art_market/constance/colors.dart';
 import 'package:art_market/screens/art_page/art_page.dart';
 import 'package:art_market/screens/auth/auth_page.dart';
+import 'package:art_market/screens/profile_page/profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 class MyTabBar extends StatefulWidget {
   const MyTabBar({Key? key}) : super(key: key);
@@ -11,84 +14,59 @@ class MyTabBar extends StatefulWidget {
 }
 
 class _TabBarState extends State<MyTabBar> {
+
+  @override
+  void initState() {
+    // String? access = tokensBox.get('access');
+    super.initState();
+  }
+
+
   int selectedIndex = 0;
+  final pages = [const ArtPage(), const ProfilePage()];
+  final page = [const ArtPage(), const AuthScreen()];
+
+  Box tokensBox = Hive.box('tokens');
+  
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Builder(
-            builder: (context) {
-              switch (selectedIndex) {
-                case 0:
-                return const ArtPage();
-                case 1:
-                  return const AuthScreen();
-
-                default:
-                  return const Center(
-                      child: Text(
-                          'Something has been went wrong, please contact with admin'));
-              }
-              // return Container();
-            },
-          ),
-        ],
+      body: PageTransitionSwitcher(
+        duration: const Duration(milliseconds: 700),
+        transitionBuilder: (child, animation, secondaryAnimation) =>
+        FadeThroughTransition(animation: CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.linearToEaseOut,
+                      reverseCurve: Curves.easeInToLinear), secondaryAnimation: secondaryAnimation, child: child),
+        child: tokensBox.isNotEmpty? pages[selectedIndex]: page[selectedIndex]
       ),
-      bottomNavigationBar: SizedBox(
-        height: 90,
-        child: NavigationBar(
-          backgroundColor: AppColors.mainColor,
-          onDestinationSelected: (int index) {
+      bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: AppColors.whiteColor,
+          unselectedItemColor: AppColors.greyColor,
+          selectedItemColor: AppColors.mainColor,
+          currentIndex: selectedIndex,
+          onTap: (int index) {
             setState(() {
               selectedIndex = index;
             });
           },
-          indicatorColor: Colors.transparent,
-          selectedIndex: selectedIndex,
-          destinations: const <Widget>[
-            NavigationDestination(
-              selectedIcon: Icon(
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(
                 Icons.image,
-                color: AppColors.whiteColor,
                 size: 30.0,
               ),
-              icon: Icon(
-                Icons.image_outlined,
-                color: AppColors.greyColor,
-                size: 30.0,
-              ),
-              label: 'Home',
+              label: "Home",
             ),
-            NavigationDestination(
-              selectedIcon: Icon(
+            BottomNavigationBarItem(
+              icon: Icon(
                 Icons.account_circle,
-                color: AppColors.whiteColor,
                 size: 30.0,
               ),
-              icon: Icon(
-                Icons.account_circle_outlined,
-                color: AppColors.greyColor,
-                size: 30.0,
-              ),
-              label: 'Profile',
-            ),
-            // NavigationDestination(
-            //   selectedIcon: Icon(
-            //     Icons.face,
-            //     color: AppColors.whiteCollor,
-            //     size: 30.0,
-            //   ),
-            //   icon: Icon(
-            //     Icons.account_circle_outlined,
-            //     color: AppColors.greyColor,
-            //     size: 30.0,
-            //   ),
-            //   label: 'Profile',
-            // ),
-          ],
-        ),
-      ),
+              label: "Profile",
+            )
+          ]),
     );
   }
 }

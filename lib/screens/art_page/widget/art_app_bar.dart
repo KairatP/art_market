@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 AppBar artAppBar(BuildContext context, ArtBloc bloc) {
   return AppBar(
     centerTitle: false,
-    backgroundColor: AppColors.mainColor,
+    backgroundColor: AppColors.whiteColor,
     title: const Text(
       "Art Gallery",
       style: AppTextStyle.appBarTextStyle,
@@ -17,7 +17,9 @@ AppBar artAppBar(BuildContext context, ArtBloc bloc) {
             bloc.add(FilterButtonNavigateEvent());
             // Navigator.pushNamed(context, RouterStructure.artFilter);
           },
-          icon: const Icon(Icons.tune))
+          icon: const Icon(Icons.tune,
+          color: AppColors.mainColor,
+          ))
     ],
   );
 }

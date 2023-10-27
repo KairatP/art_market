@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 class AppTextStyle {
   AppTextStyle._();
   static const appBarTextStyle = TextStyle(
-      fontSize: 20, fontWeight: FontWeight.normal, color: AppColors.whiteColor);
+      fontSize: 20, fontWeight: FontWeight.w500, color: AppColors.mainColor);
+  static const appBarWhiteTextStyle = TextStyle(
+      fontSize: 20, fontWeight: FontWeight.w500, color: AppColors.whiteColor);
   static const whiteBodyTextStyle = TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.normal,

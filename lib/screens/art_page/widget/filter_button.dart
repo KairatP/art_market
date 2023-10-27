@@ -1,7 +1,7 @@
 import 'package:art_market/constance/colors.dart';
 import 'package:flutter/material.dart';
 
-class FilterButton extends StatefulWidget {
+class FilterButton extends StatelessWidget {
   const FilterButton({
     Key? key,
     required this.content,
@@ -14,11 +14,6 @@ class FilterButton extends StatefulWidget {
   final EdgeInsets contentPadding;
 
   @override
-  State<FilterButton> createState() => _FilterButtonState();
-}
-
-class _FilterButtonState extends State<FilterButton> {
-  @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
@@ -27,7 +22,7 @@ class _FilterButtonState extends State<FilterButton> {
           backgroundColor: Colors.transparent,
           context: context,
           builder: (context) => Container(
-            padding: widget.contentPadding,
+            padding: contentPadding,
             decoration: BoxDecoration(
               color: AppColors.whiteColor,
               borderRadius: const BorderRadius.only(
@@ -43,7 +38,7 @@ class _FilterButtonState extends State<FilterButton> {
                 ),
               ],
             ),
-            child: widget.content,
+            child: content,
           ),
         );
       },
