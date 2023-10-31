@@ -72,13 +72,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             label: 'Send',
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                widget.bloc.add(RegTougleEvent(
+
+                widget.bloc.add(ForgetPasswordEvent(
                     mainAuthTougle: widget.sate.mainTougleState,
                     registartionScreen: widget.sate.registartionScreen,
                     forgotScreen: false,
                     loginScreen: widget.sate.loginScreen,
                     forgotPasswordConfirmScreen: true,
-                    passwordUpdateScreen: widget.sate.passwordUpdateScreen));
+                    passwordUpdateScreen: widget.sate.passwordUpdateScreen,
+                    email: emailController.text));
               } else {
                 return;
               }

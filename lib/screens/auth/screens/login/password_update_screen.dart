@@ -132,13 +132,16 @@ class _PasswordUpdateScreenState extends State<PasswordUpdateScreen> {
                 label: 'Update password',
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    widget.bloc.add(RegTougleEvent(
-                    mainAuthTougle: widget.sate.mainTougleState, 
+                    widget.bloc.add(ChangePasswordEvent(
+                    mainAuthTougle: true, 
                     registartionScreen: widget.sate.registartionScreen, 
                     forgotScreen: widget.sate.forgotScreen, 
                     loginScreen: true, 
-                    forgotPasswordConfirmScreen: true, 
-                    passwordUpdateScreen: widget.sate.passwordUpdateScreen));
+                    forgotPasswordConfirmScreen: widget.sate.forgotPasswordConfirmScreen, 
+                    passwordUpdateScreen: widget.sate.passwordUpdateScreen, 
+                    password: passwordController.text, 
+                    confirmPassword: passwordVerificationController.text,
+                    ));
                   }
                   
                       // mainAuthTougle: true, registartionScreen: sate.regState, forgotScreen: sate.forgotScreen, loginScreen: sate.loginScreen, forgotPasswordConfirmScreen: true, passwordUpdateScreen: false));

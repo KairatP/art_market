@@ -57,19 +57,49 @@ class UserLoginEvent extends LoginEvent {
 
 class ForgetPasswordEvent extends LoginEvent {
   final String email;
+  final bool mainAuthTougle;
+  final bool forgotScreen;
+  final bool registartionScreen;
+  final bool loginScreen;
+  final bool forgotPasswordConfirmScreen;
+  final bool passwordUpdateScreen;
   ForgetPasswordEvent({
+    required this.email,
+    required this.mainAuthTougle,
+    required this.forgotScreen,
+    required this.registartionScreen,
+    required this.loginScreen,
+    required this.forgotPasswordConfirmScreen,
+    required this.passwordUpdateScreen,
+  });
+
+}
+
+class ConfirmPasswordEvent extends LoginEvent {
+  final String email;
+  ConfirmPasswordEvent({
     required this.email,
   });
 
 }
 
 class ChangePasswordEvent extends LoginEvent {
-  final String email;
   final String password;
   final String confirmPassword;
+  final bool mainAuthTougle;
+  final bool forgotScreen;
+  final bool registartionScreen;
+  final bool loginScreen;
+  final bool forgotPasswordConfirmScreen;
+  final bool passwordUpdateScreen;
   ChangePasswordEvent({
-    required this.email,
     required this.password,
     required this.confirmPassword,
+    required this.mainAuthTougle,
+    required this.forgotScreen,
+    required this.registartionScreen,
+    required this.loginScreen,
+    required this.forgotPasswordConfirmScreen,
+    required this.passwordUpdateScreen,
   });
 }

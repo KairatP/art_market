@@ -47,4 +47,7 @@ class IncorrectDataState extends LoginActionState {}
 class LoginFailedState extends LoginActionState {}
 
 class UserSussecufulyCreatedState extends LoginActionState {}
+class UserSussecufulyUpdateState extends LoginActionState {}
+
+
 

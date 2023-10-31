@@ -1,17 +1,17 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
+// // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'token_model.dart';
+// part of 'token_model.dart';
 
-// **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
+// // **************************************************************************
+// // JsonSerializableGenerator
+// // **************************************************************************
 
-_$TokenModelImpl _$$TokenModelImplFromJson(Map<String, dynamic> json) =>
-    _$TokenModelImpl(
-      token: json['token'] as String,
-    );
+// _$TokenModelImpl _$$TokenModelImplFromJson(Map<String, dynamic> json) =>
+//     _$TokenModelImpl(
+//       token: json['token'] as String,
+//     );
 
-Map<String, dynamic> _$$TokenModelImplToJson(_$TokenModelImpl instance) =>
-    <String, dynamic>{
-      'token': instance.token,
-    };
+// Map<String, dynamic> _$$TokenModelImplToJson(_$TokenModelImpl instance) =>
+//     <String, dynamic>{
+//       'token': instance.token,
+//     };

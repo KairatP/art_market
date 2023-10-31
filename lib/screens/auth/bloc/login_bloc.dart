@@ -13,8 +13,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<RegTougleEvent>(_onRegTougleEvent);
     on<UserCreateEvent>(_onUserCreateEvent);
     on<UserLoginEvent>(_onUserLoginEvent);
-    on<ForgetPasswordEvent>(_onforgetPasswordEvent);
-    on<ChangePasswordEvent>(_onchangePasswordEvent);
+    on<ForgetPasswordEvent>(_onForgetPasswordEvent);
+    on<ConfirmPasswordEvent>(_onConfirmPasswordEvent);
+    on<ChangePasswordEvent>(_onChangePasswordEvent);
   }
 
   FutureOr<void> _onInitialEvent(InitialEvent event, Emitter<LoginState> emit) {
@@ -36,8 +37,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   Future<FutureOr<void>> _onUserCreateEvent(
       UserCreateEvent event, Emitter<LoginState> emit) async {
-        try {
-      await authService.create(event.email, event.password, event.confirmPassword);
+    try {
+      await authService.create(
+          event.email, event.password, event.confirmPassword);
       emit(UserSussecufulyCreatedState());
       emit(LoginControlState());
     } on DioException {
@@ -52,7 +54,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Future<FutureOr<void>> _onUserLoginEvent(
       UserLoginEvent event, Emitter<LoginState> emit) async {
     try {
-      await authService.login(event.username.toString(), event.password.toString());
+      await authService.login(
+          event.username.toString(), event.password.toString());
       emit(LoginSusseccActionState());
     } on DioException {
       emit(IncorrectDataState());
@@ -63,8 +66,29 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  Future<FutureOr<void>> _onforgetPasswordEvent(
+  Future<FutureOr<void>> _onForgetPasswordEvent(
       ForgetPasswordEvent event, Emitter<LoginState> emit) async {
+    try {
+      await authService.forgetPassword(event.email);
+      email = event.email;
+      emit(LoginControlState(
+          mainTougleState: event.mainAuthTougle,
+          forgotScreen: event.forgotScreen,
+          registartionScreen: event.registartionScreen,
+          loginScreen: event.loginScreen,
+          forgotPasswordConfirmScreen: event.forgotPasswordConfirmScreen,
+          passwordUpdateScreen: event.passwordUpdateScreen));
+    } on DioException {
+      emit(IncorrectDataState());
+      rethrow;
+    } catch (e) {
+      emit(LoginFailedState());
+      rethrow;
+    }
+  }
+
+  Future<FutureOr<void>> _onConfirmPasswordEvent(
+      ConfirmPasswordEvent event, Emitter<LoginState> emit) async {
     try {
       await authService.forgetPassword(event.email);
       emit(LoginSusseccActionState());
@@ -77,12 +101,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  Future<FutureOr<void>> _onchangePasswordEvent(
+  Future<FutureOr<void>> _onChangePasswordEvent(
       ChangePasswordEvent event, Emitter<LoginState> emit) async {
     try {
       await authService.changePassword(
-    event.email, event.password, event.confirmPassword);
-      emit(LoginSusseccActionState());
+          email, event.password, event.confirmPassword);
+      emit(UserSussecufulyUpdateState());
+      emit(LoginControlState(
+          mainTougleState: event.mainAuthTougle,
+          forgotScreen: event.forgotScreen,
+          registartionScreen: event.registartionScreen,
+          loginScreen: event.loginScreen,
+          forgotPasswordConfirmScreen: event.forgotPasswordConfirmScreen,
+          passwordUpdateScreen: event.passwordUpdateScreen));
     } on DioException {
       emit(IncorrectDataState());
       rethrow;
@@ -92,3 +123,5 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 }
+
+var email = '';

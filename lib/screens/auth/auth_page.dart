@@ -102,11 +102,38 @@ class _AuthScreenState extends State<AuthScreen> {
                       vertical: 15,
                     ),
                     child: GlButton(
+                      color: Colors.lightGreen,
+                      textColor: AppColors.blackColor,
                       label: 'Ok',
                       
                       onPressed: () => Navigator.pop(context),
                       // authBloc.add(RegTougleEvent(mainAuthTougle: true, forgotScreen: true, registartionScreen: true, loginScreen: true, forgotPasswordConfirmScreen: true, passwordUpdateScreen: true)),
                       
+                    ),
+                  ),
+                ],
+                
+              );
+            },
+          );
+        } else if (state is UserSussecufulyUpdateState) {
+          showCupertinoModalPopup(
+            context: context,
+            builder: (context) {
+              return CupertinoAlertDialog(
+                title: const Text('Confirmation message'),
+                content: const Text("Password has successfully updated"),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 15,
+                    ),
+                    child: GlButton(
+                      color: Colors.lightGreen,
+                      textColor: AppColors.blackColor,
+                      label: 'Ok',
+                      onPressed: () => Navigator.pop(context),
                     ),
                   ),
                 ],

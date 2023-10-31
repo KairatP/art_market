@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:art_market/dependencies/Art_dio.dart';
 import 'package:art_market/model/token/token_model.dart';
+import 'package:art_market/model/user/change_password_user_model.dart';
 import 'package:art_market/model/user/create_user_model.dart';
+import 'package:art_market/model/user/forget_password_user_model.dart';
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 
@@ -10,8 +12,8 @@ abstract class AuthService {
   Future<TokenModel> login(String username, String password);
   Future<CreateUserModel> create(
       String email, String password, String confirmPassword);
-  Future<TokenModel> forgetPassword(String email);
-  Future<TokenModel> changePassword(
+  Future<ForgetPasswordUserModel> forgetPassword(String email);
+  Future<ChangePasswordUserModel> changePassword(
       String email, String password, String confirmPassword);
   Future<TokenModel> verifyCode(String email, int code);
 }
@@ -85,7 +87,7 @@ class AuthServiceImplement extends AuthService {
     // Response response;
     // response = await dio.post(api, data:  jsonEncode(data));
     // if (response.statusCode == 200) {
-    //   print('success'); 
+    //   print('success');
     // } return throw Error();
 
     try {
@@ -97,7 +99,12 @@ class AuthServiceImplement extends AuthService {
           'confirmPassword': confirmPassword,
         },
       );
-      CreateUserModel createModel = CreateUserModel(message: response.data['message'], errors: response.data['errors'], succeeded: response.data['succeeded'], data: response.data['data']);
+      CreateUserModel createModel = CreateUserModel(
+          message: response.data['message'],
+          errors: response.data['errors'],
+          succeeded: response.data['succeeded'],
+          data: response.data['data']
+        );
       return createModel;
     } catch (e) {
       rethrow;
@@ -105,7 +112,7 @@ class AuthServiceImplement extends AuthService {
   }
 
   @override
-  Future<TokenModel> forgetPassword(String email) async {
+  Future<ForgetPasswordUserModel> forgetPassword(String email) async {
     try {
       Response response = await dio.post(
         'account/forgotPassword',
@@ -113,27 +120,20 @@ class AuthServiceImplement extends AuthService {
           'email': email,
         },
       );
-      // TokenModel tokensModel = TokenModel.fromJson(response.data);
-      // // UserModel userModel = UserModel.fromJson(response.data['user']);
-      // tokensBox.put('access', tokensModel.token);
-      // // userBox.put('id', userModel.id);
-      // // userBox.put('login', userModel.login);
-      // // userBox.put('created_at', userModel.createdAt);
-      // // userBox.put('updated_at', userModel.updatedAt);
-      // // userBox.put('username', userModel.username);
-      // // userBox.put('position', userModel.position);
-      // // userBox.put('phone', userModel.phone);
-      // // userBox.put('email', userModel.email);
-
-      return response.data;
-      // tokensModel;
+      ForgetPasswordUserModel forgotModel = ForgetPasswordUserModel(
+        message: response.data['message'],
+        errors: response.data['errors'],
+        succeeded: response.data['succeeded'],
+        data: response.data['data']
+      );
+      return forgotModel;
     } catch (e) {
       rethrow;
     }
   }
 
   @override
-  Future<TokenModel> changePassword(
+  Future<ChangePasswordUserModel> changePassword(
       String email, String password, String confirmPassword) async {
     try {
       Response response = await dio.post(
@@ -144,21 +144,13 @@ class AuthServiceImplement extends AuthService {
           'confirmPassword': confirmPassword,
         },
       );
-      // TokenModel tokensModel = TokenModel.fromJson(response.data);
-      // // UserModel userModel = UserModel.fromJson(response.data['user']);
-      // tokensBox.put('access', tokensModel.token);
-      // // userBox.put('id', userModel.id);
-      // // userBox.put('login', userModel.login);
-      // // userBox.put('created_at', userModel.createdAt);
-      // // userBox.put('updated_at', userModel.updatedAt);
-      // // userBox.put('username', userModel.username);
-      // // userBox.put('position', userModel.position);
-      // // userBox.put('phone', userModel.phone);
-      // // userBox.put('email', userModel.email);
-
-      return response.data;
-
-      // tokensModel;
+      ChangePasswordUserModel changeModel = ChangePasswordUserModel(
+        message: response.data['message'],
+        errors: response.data['errors'],
+        succeeded: response.data['succeeded'],
+        data: response.data['data']
+      );
+      return changeModel;
     } catch (e) {
       rethrow;
     }
@@ -174,18 +166,6 @@ class AuthServiceImplement extends AuthService {
           'code': code,
         },
       );
-      // TokenModel tokensModel = TokenModel.fromJson(response.data);
-      // // UserModel userModel = UserModel.fromJson(response.data['user']);
-      // tokensBox.put('access', tokensModel.token);
-      // // userBox.put('id', userModel.id);
-      // // userBox.put('login', userModel.login);
-      // // userBox.put('created_at', userModel.createdAt);
-      // // userBox.put('updated_at', userModel.updatedAt);
-      // // userBox.put('username', userModel.username);
-      // // userBox.put('position', userModel.position);
-      // // userBox.put('phone', userModel.phone);
-      // // userBox.put('email', userModel.email);
-
       return response.data;
 
       // tokensModel;

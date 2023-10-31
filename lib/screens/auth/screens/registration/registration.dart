@@ -86,7 +86,7 @@ class _RegistrationState extends State<Registration> {
                   if (password == null ||
                       password.trim().isEmpty ||
                       passwordController.text !=
-                          passwordVerificationController.text) {
+                          passwordVerificationController.text || passwordController.text.length  < 5) {
                     return 'The text field must be filled in';
                   }
                   return null;
@@ -127,7 +127,7 @@ class _RegistrationState extends State<Registration> {
                   if (password == null ||
                       password.trim().isEmpty ||
                       passwordController.text !=
-                          passwordVerificationController.text) {
+                          passwordVerificationController.text || passwordController.text.length  < 5) {
                     return 'The text field must be filled in and passwords must be same';
                   }
                   return null;
