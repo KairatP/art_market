@@ -13,84 +13,96 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
     on<FilterCityAddEvent>(_onFilterCityAddEvent);
     on<FilterCityDelateEvent>(_onFilterCityDelateEvent);
     on<FilterSelectedNavigateEvent>(_onFilterSelectedNavigateEvent);
-    // on<FilterSelectedUpdateEvent>(_onFilterSelectedUpdateEvent);
   }
 
   FutureOr<void> _onFilterInitialEvent(
       FilterInitialEvent event, Emitter<FilterState> emit) {
-    if (_country.isEmpty|| _city.isEmpty) {
-      _city = city;
-      _country = coutry;
+    if (state.iniCountry.isEmpty || state.iniCity.isEmpty) {
       emit(FilterState(
-          iniCountry: _country,
-          iniCity: _city,
-          selectedCountry: _selectedCountry,
-          selectedCity: _selectedCity));
+          iniCountry: coutry,
+          iniCity: city,
+          selectedCountry: state.selectedCountry,
+          selectedCity: state.selectedCity));
     } else {
       emit(FilterState(
-          iniCountry: _country,
-          iniCity: _city,
-          selectedCountry: _selectedCountry,
-          selectedCity: _selectedCity));
+          iniCountry: state.iniCountry,
+          iniCity: state.iniCity,
+          selectedCountry: state.selectedCountry,
+          selectedCity: state.selectedCity));
     }
   }
 
   FutureOr<void> _onFilterCountryAddEvent(
       FilterCountryAddEvent event, Emitter<FilterState> emit) {
-    _selectedCountry.add(event.selectedCountry);
-
+    state.selectedCountry.add(event.selectedCountry);
+    state.selectedCountry.sort();
+    for (var element in state.selectedCountry) {
+      state.iniCountry.remove(element);
+    }
+    state.iniCountry.insertAll(0, state.selectedCountry);
     emit(FilterState(
-        iniCountry: _country,
-        iniCity: _city,
-        selectedCountry: _selectedCountry,
-        selectedCity: _selectedCity));
+        iniCountry: state.iniCountry,
+        iniCity: state.iniCity,
+        selectedCountry: state.selectedCountry,
+        selectedCity: state.selectedCity));
   }
 
   FutureOr<void> _onFilterCountryDelateEvent(
       FilterCountryDelateEvent event, Emitter<FilterState> emit) {
-    _selectedCountry.remove(event.selectedCountry);
+    state.iniCountry.removeRange(0, state.selectedCountry.length);
+    state.iniCountry.add(event.selectedCountry);
+    state.iniCountry.sort();
+    state.selectedCountry.remove(event.selectedCountry);
+    state.selectedCountry.sort();
+    state.iniCountry.insertAll(0, state.selectedCountry);
+
     emit(FilterState(
-        iniCountry: _country,
-        iniCity: _city,
-        selectedCountry: _selectedCountry,
-        selectedCity: _selectedCity));
+        iniCountry: state.iniCountry,
+        iniCity: state.iniCity,
+        selectedCountry: state.selectedCountry,
+        selectedCity: state.selectedCity
+        ));
   }
 
   FutureOr<void> _onFilterCityAddEvent(
       FilterCityAddEvent event, Emitter<FilterState> emit) {
-    _selectedCity.add(event.selectedCity);
+    state.selectedCity.add(event.selectedCity);
+    state.selectedCity.sort();
+    for (var element in state.selectedCity) {
+      state.iniCity.remove(element);
+    }
+    state.iniCity.insertAll(0, state.selectedCity);
     emit(FilterState(
-        iniCountry: _country,
-        iniCity: _city,
-        selectedCountry: _selectedCountry,
-        selectedCity: _selectedCity));
+        iniCountry: state.iniCountry,
+        iniCity: state.iniCity,
+        selectedCountry: state.selectedCountry,
+        selectedCity: state.selectedCity,
+    ));
   }
 
   FutureOr<void> _onFilterCityDelateEvent(
       FilterCityDelateEvent event, Emitter<FilterState> emit) {
-    _selectedCity.remove(event.selectedCity);
+    state.iniCity.removeRange(0, state.selectedCity.length);
+    state.iniCity.add(event.selectedCity);
+    state.iniCity.sort();
+    state.selectedCity.remove(event.selectedCity);
+    state.selectedCity.sort();
+    state.iniCity.insertAll(0, state.selectedCity);
     emit(FilterState(
-        iniCountry: _country,
-        iniCity: _city,
-        selectedCountry: _selectedCountry,
-        selectedCity: _selectedCity));
+        iniCountry: state.iniCountry,
+        iniCity: state.iniCity,
+        selectedCountry: state.selectedCountry,
+        selectedCity: state.selectedCity,
+      ));
   }
 
   FutureOr<void> _onFilterSelectedNavigateEvent(
       FilterSelectedNavigateEvent event, Emitter<FilterState> emit) {
-    emit(FilterSelectedActionState(selectedCountry: _selectedCountry, selectedCity: _selectedCity));
+    emit(FilterSelectedActionState(
+        selectedCountry: state.selectedCountry, selectedCity: state.selectedCity));
   }
-
-  // FutureOr<void> _onFilterSelectedUpdateEvent(
-  //     FilterSelectedUpdateEvent event, Emitter<FilterState> emit) {
-  //   emit(FilterState());
-  // }
 }
 
-List<String> _country = [];
-List<String>  _city = [];
-List<String>  _selectedCountry = [];
-List<String>  _selectedCity = [];
 
 var coutry = [
   "Afghanistan",
@@ -291,28 +303,28 @@ var coutry = [
   "Zimbabwe",
 ];
 var city = [
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '7',
-  '8',
-  '12',
-  '11',
-  '13',
-  '44',
-  '55',
-  '75',
-  '77',
-  '888',
-  '134354636467777878',
-  '11111§',
-  '222',
-  '22',
-  '111',
-  '12211',
-  '1212',
-  '34',
-  '545'
+  'Newyork',
+  'Astana',
+  'Ankara',
+  'Berlin',
+  'Istanbul',
+  'Buzzz',
+  'Kepitttt',
+  'Abai',
+  'Almaty',
+  'Cincinaty',
+  'Boston',
+  'London',
+  'York',
+  'Shir',
+  'Dubai',
+  'Dublin',
+  'Bern',
+  'Keln',
+  'Rashtat',
+  'Milan',
+  'Rome',
+  'Monaco',
+  'Nice',
+  'Parice'
 ];

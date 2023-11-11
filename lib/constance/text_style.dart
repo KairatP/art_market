@@ -18,7 +18,8 @@ class AppTextStyle {
     static const blackBodyTextStyle = TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.normal,
-      color: Color.fromARGB(255, 0, 0, 0));
+      color: Color.fromARGB(255, 0, 0, 0),
+    );
     static const blueBodyTextStyle = TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.normal,

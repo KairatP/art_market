@@ -48,9 +48,6 @@ class AuthServiceImplement extends AuthService {
       // userBox.put('position', userModel.position);
       // userBox.put('phone', userModel.phone);
       // userBox.put('email', userModel.email);
-
-      print(tokensModel.token);
-
       return tokensModel;
 
       // return response.data;

@@ -45,11 +45,13 @@ AppBar profileAppBar(
     // ),
     actions: [
       IconButton(
-          onPressed: () {
-            bloc.add(AddPostButtonNavigateEvent());
-          },
-          icon: const Icon(Icons.add,
-          color: AppColors.mainColor,)),
+        splashColor: Colors.transparent,  
+        highlightColor: Colors.transparent,
+        onPressed: () {
+          bloc.add(AddPostButtonNavigateEvent());
+        },
+        icon: const Icon(Icons.add,
+        color: AppColors.mainColor,)),
       // IconButton(
       //   onPressed: () {
       //       // Navigator.pushNamed(context, RouterStructure.artFilter);

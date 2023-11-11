@@ -1,5 +1,17 @@
 part of 'filter_bloc.dart';
 
+// class AddPostState {
+
+//   List<XFile>? images;
+//   AddPostState({required this.images});
+
+//   List<Object> get props => [];
+// }
+
+// class AddPostStateInitial extends AddPostState {
+//   AddPostStateInitial(): super(images: <XFile>[]);
+// }
+
 class FilterState {
   List<String> iniCountry;
   List<String> iniCity;
@@ -13,15 +25,10 @@ class FilterState {
     required this.selectedCity,
   });
 
-  List<Object?> get props => [
-        iniCountry,
-        iniCity,
-        selectedCountry,
-        selectedCity,
-      ];
+  List<Object?> get props => [];
 }
 
-final class FilterInitial extends FilterState {
+class FilterInitial extends FilterState {
   FilterInitial()
       : super(
             iniCountry: [], iniCity: [], selectedCountry: [], selectedCity: []);
@@ -58,3 +65,5 @@ abstract class FilterActionState extends FilterState {
 class FilterSelectedActionState extends FilterActionState {
   FilterSelectedActionState({required super.selectedCountry, required super.selectedCity});
 }
+
+

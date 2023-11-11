@@ -59,23 +59,6 @@ class _ArtFilterPageState extends State<ArtFilterPage> {
                   ),
                   title: const Text("Filter"),
                   backgroundColor: AppColors.whiteColor,
-                  // actions: [
-                  //   TextButton(
-                  //     child: const Text(
-                  //       'Apply',
-                  //       style: AppTextStyle.blackBodyTextStyle,
-                  //     ),
-                  //     onPressed: () {
-                  //       filterBloc.add(FilterSelectedNavigateEvent());
-                  //     },
-                  //   )
-                  //   // IconButton(
-                  //   //   icon: const Icon(Icons.done),
-                  //   //   onPressed: () {
-                  //   //     filterBloc.add(FilterSelectedNavigateEvent());
-                  //   //   },
-                  //   // ),
-                  // ],
                 ),
                 body: Center(
                     child: Column(
@@ -97,14 +80,6 @@ class _ArtFilterPageState extends State<ArtFilterPage> {
                                           state.selectedCountry.contains(e),
                                       label: Text(e),
                                       onSelected: (selected) {
-                                        //   setState(() {
-                                        //     if (selected) {
-                                        //       countryList.add(e);
-                                        //     } else {
-                                        //       countryList.remove(e);
-                                        //     }
-                                        //   }
-                                        // );
                                         if (selected) {
                                           // state.selectedCountry.add(e);
                                           filterBloc.add(FilterCountryAddEvent(
