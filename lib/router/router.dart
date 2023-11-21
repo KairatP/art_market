@@ -1,8 +1,12 @@
+import 'package:art_market/dependencies/injection_container.dart';
+import 'package:art_market/model/art/my_art_model.dart';
+import 'package:art_market/model/user/user_profile_model.dart';
 import 'package:art_market/router/router_structure.dart';
 import 'package:art_market/screens/art_page/bloc/art_bloc.dart';
 import 'package:art_market/screens/art_page/screens/art_detail_page/art_detail.dart';
-import 'package:art_market/screens/art_page/model/art_model.dart';
+import 'package:art_market/model/art/art_model.dart';
 import 'package:art_market/screens/art_page/screens/art_filter_page/art_filter_screen.dart';
+import 'package:art_market/screens/profile_page/bloc/profile_bloc.dart';
 import 'package:art_market/screens/profile_page/screens/add_post/add_post_page.dart';
 import 'package:art_market/screens/profile_page/screens/add_post/bloc/add_post_bloc.dart';
 import 'package:art_market/screens/profile_page/screens/edit_my_post_page/bloc/edit_post_bloc.dart';
@@ -29,7 +33,7 @@ class MetaRouter {
           settings: routeSettings,
         );
       case RouterStructure.artDetail:
-        ArtModel args = routeSettings.arguments as ArtModel;
+        ArtData args = routeSettings.arguments as ArtData;
         return MaterialPageRoute(
           builder: (context) => ArtDetail(
             artModelType: args,
@@ -49,28 +53,54 @@ class MetaRouter {
       // );
       case RouterStructure.addPostPage:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => AddPostBloc(),
+          builder: (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                  create: (context) => AddPostBloc(postService: getIt())
+                  // ..add(InitialAddPostEvent()),
+                  ),
+              BlocProvider(
+                create: (context) => ProfileBloc(postService: getIt()),
+              ),
+            ],
             child: const AddPostPage(),
           ),
           settings: routeSettings,
         );
+
       case RouterStructure.editPostPage:
-        EditPostPage args = routeSettings.arguments as EditPostPage;
+        MyArtData args = routeSettings.arguments as MyArtData;
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => EditPostBloc(),
-            child: EditPostPage(
-              postModelType: args.postModelType,
-              userModelType: args.userModelType,
-            ),
+          builder: (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => EditPostBloc(postService: getIt(), userPost: args)..add(EditPosInitialEvent()),
+              ),
+              BlocProvider(
+                create: (context) => ProfileBloc(postService: getIt()),
+              ),
+            ],
+            child: const EditPostPage(),
           ),
           settings: routeSettings,
         );
+
       case RouterStructure.profileEditPage:
+        UserProfileModel args = routeSettings.arguments as UserProfileModel;
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => ProfileEditBloc(),
+          builder: (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) =>
+                    ProfileEditBloc(postService: getIt(), userProfile: args)
+                      ..add(InitialEditProfileEvent()),
+              ),
+              BlocProvider(
+                // BlocProvider.value(
+                // value: ProfileBloc(postService: getIt()),
+                create: (context) => ProfileBloc(postService: getIt()),
+              ),
+            ],
             child: const ProfileEditPage(),
           ),
           settings: routeSettings,

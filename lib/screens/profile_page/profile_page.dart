@@ -1,5 +1,5 @@
 import 'package:art_market/constance/colors.dart';
-import 'package:art_market/router/router_structure.dart';
+import 'package:art_market/dependencies/injection_container.dart';
 import 'package:art_market/screens/profile_page/bloc/profile_bloc.dart';
 import 'package:art_market/screens/profile_page/widgets/profile_app_bar.dart';
 import 'package:art_market/screens/profile_page/widgets/profile_cell.dart';
@@ -14,13 +14,27 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final ProfileBloc profileBloc = ProfileBloc();
+  final ProfileBloc profileBloc = ProfileBloc(postService: getIt());
 
   @override
   void initState() {
     profileBloc.add(InitialProfileEvent());
+    setupController();
     super.initState();
   }
+
+  final scrollController = ScrollController();
+  void setupController() {
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        if (scrollController.position.pixels != 0) {
+          profileBloc.add(ProfileLoadedEvent());
+        }
+      }
+    });
+  }
+
+  // late final IAuthor author;
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +43,10 @@ class _ProfilePageState extends State<ProfilePage> {
       bloc: profileBloc,
       listenWhen: (previous, curent) => curent is ProfileActionState,
       buildWhen: (previous, curent) => curent is! ProfileActionState,
-      listener: (context, state) {
-        if (state is AddPostActionState) {
-          Navigator.pushNamed(context, RouterStructure.addPostPage);
-        } else if (state is ProfileEditActionState) {
-          Navigator.pushNamed(context, RouterStructure.profileEditPage);
-        }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         switch (state.runtimeType) {
-          case ProfileInitial:
+          case ProfileLoadingState:
             return const Scaffold(
                 body: Center(
                     child: CircularProgressIndicator(
@@ -49,29 +57,44 @@ class _ProfilePageState extends State<ProfilePage> {
             final successState = state as ProfilePostListSuccsesState;
             return Scaffold(
               appBar:
-                  profileAppBar(context, profileBloc, state.profileUserData),
-              body: successState.postList.isEmpty ? const SizedBox() :
-              Column(
-                children: [
-                  Expanded(
-                      // List view
-                      child: ListView.separated(
-                          itemCount: successState.postList.length,
-                          shrinkWrap: true,
-                          // physics: NeverScrollableScrollPhysics(),
-                          padding: EdgeInsets.zero,
-                          itemBuilder: (context, index) {
-                            return ProfileCell(
-                              profileModelType: successState.postList[index],
-                              index: index,
-                              userData: state.profileUserData,
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return const Divider();
-                          })),
-                ],
-              ),
+                  profileAppBar(context, successState.profileUserData, (value) {
+                if (value == 'ok') {
+                  profileBloc.add(InitialProfileEvent());
+                }
+              }, (valueAddPost) {
+                if (valueAddPost == 'ok') {
+                  profileBloc.add(InitialProfileEvent());
+                }
+              }),
+              body: successState.postList.isEmpty
+                  ? const Center(
+                      child: Text("No published posts yet"),
+                    )
+                  : Column(
+                      children: [
+                        Expanded(
+                            // List view
+                            child: ListView.separated(
+                                controller: scrollController,
+                                itemCount: successState.postList.length,
+                                shrinkWrap: true,
+                                // physics: NeverScrollableScrollPhysics(),
+                                padding: EdgeInsets.zero,
+                                itemBuilder: (context, index) {
+                                  return ProfileCell(
+                                    profileModelType:
+                                        successState.postList[index],
+                                    index: index,
+                                    updatePost: (updatePostText) {
+                                      profileBloc.add(InitialProfileEvent());
+                                    },
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return const Divider();
+                                })),
+                      ],
+                    ),
             );
           case ProfilePostErrorState:
             return const Scaffold(

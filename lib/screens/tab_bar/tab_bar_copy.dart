@@ -72,19 +72,6 @@ class _TabBarState extends State<MyTabBar> {
               ),
               label: 'Profile',
             ),
-            // NavigationDestination(
-            //   selectedIcon: Icon(
-            //     Icons.face,
-            //     color: AppColors.whiteCollor,
-            //     size: 30.0,
-            //   ),
-            //   icon: Icon(
-            //     Icons.account_circle_outlined,
-            //     color: AppColors.greyColor,
-            //     size: 30.0,
-            //   ),
-            //   label: 'Profile',
-            // ),
           ],
         ),
       ),

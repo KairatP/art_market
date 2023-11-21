@@ -1,7 +1,7 @@
 import 'package:art_market/constance/colors.dart';
 import 'package:art_market/constance/text_style.dart';
 import 'package:art_market/screens/art_page/screens/art_detail_page/widget/art_detail_page_widget.dart';
-import 'package:art_market/screens/art_page/model/art_model.dart';
+import 'package:art_market/model/art/art_model.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +11,7 @@ class ArtDetail extends StatefulWidget {
     required this.artModelType, 
     }) : super(key: key);
 
-  final ArtModel artModelType;
+  final ArtData artModelType;
 
   @override
   State<ArtDetail> createState() => _ArtDetailState();
@@ -35,7 +35,7 @@ class _ArtDetailState extends State<ArtDetail> {
                 children: [
                   PageView.builder(
                     controller: pageController,
-                    itemCount: widget.artModelType.imageUrl.length,
+                    itemCount: widget.artModelType.urls.length,
                     onPageChanged: (index) {
                       setState(() {
                         _count = index;
@@ -43,20 +43,20 @@ class _ArtDetailState extends State<ArtDetail> {
                       
                     },
                     itemBuilder: (context, index) => ArtDetailWidget(
-                      imagePath: widget.artModelType.imageUrl[index]
+                      imagePath: widget.artModelType.urls[index]
                     ),
                   ),
                 ],
               ),
             ),
-          ), widget.artModelType.imageUrl.length == 1 ? 
+          ), widget.artModelType.urls.length == 1 ? 
           const SizedBox() :
           Padding(// Positioner part
             padding: const EdgeInsetsDirectional.symmetric(horizontal: 0, vertical: 0),
             child: DotsIndicator( 
               mainAxisAlignment: MainAxisAlignment.center,
               position: _count,
-              dotsCount: widget.artModelType.imageUrl.length,
+              dotsCount: widget.artModelType.urls.length,
               decorator: DotsDecorator(
                 color: Colors.grey,
                 activeColor: AppColors.mainColor,
@@ -88,7 +88,10 @@ class _ArtDetailState extends State<ArtDetail> {
                             borderRadius: BorderRadius.circular(25),
                             border: Border.all(color: AppColors.mainColor),
                             image: DecorationImage(
-                                image: NetworkImage(widget.artModelType.avatar),
+                                image:  widget.artModelType.author.avaUrl.isEmpty ?
+                                const NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSItZEIqi-mJMnPpWOBUzEGvkE3gsACe19W2Np1neYZyI0PlTv6_WNzFByxz0EkV7equPQ&usqp=CAU')
+                                :
+                                NetworkImage(widget.artModelType.author.avaUrl),
                                 fit: BoxFit.cover),
                             color: AppColors.transparentColor,
                           ),
@@ -108,32 +111,32 @@ class _ArtDetailState extends State<ArtDetail> {
                                 Container(
                                   margin: const EdgeInsets.only(left: 5),
                                   child: Text(
-                                    widget.artModelType.phone,
+                                    widget.artModelType.author.phoneNumber,
                                     style: AppTextStyle.blackBodyTextStyle,
                                     maxLines: 1,
                                   ),
                                 ),
                               ],
                             ),
-                            Row(
-                              // email
-                              children: [
-                                const Icon(
-                                  Icons.mail,
-                                  color: AppColors.blackColor,
-                                  size: 20.0,
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(left: 5),
-                                  child: Text(
-                                    textAlign: TextAlign.start,
-                                    widget.artModelType.email,
-                                    style: AppTextStyle.blackBodyTextStyle,
-                                    maxLines: 1,
-                                  ),
-                                ),
-                              ],
-                            ),
+                            // Row(
+                            //   // email
+                            //   children: [
+                            //     const Icon(
+                            //       Icons.mail,
+                            //       color: AppColors.blackColor,
+                            //       size: 20.0,
+                            //     ),
+                            //     Container(
+                            //       margin: const EdgeInsets.only(left: 5),
+                            //       child: Text(
+                            //         textAlign: TextAlign.start,
+                            //         widget.artModelType.author.,
+                            //         style: AppTextStyle.blackBodyTextStyle,
+                            //         maxLines: 1,
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
                           ],
                         )
                       ],
@@ -141,7 +144,7 @@ class _ArtDetailState extends State<ArtDetail> {
                     Container(
                         // Owner Name
                         padding: const EdgeInsets.only(top: 5, bottom: 15),
-                        child: Text(widget.artModelType.name)),
+                        child: Text(widget.artModelType.author.name)),
                     const Text("Price:"),  // price part
                     Row(
                       children: [
@@ -154,7 +157,7 @@ class _ArtDetailState extends State<ArtDetail> {
                           padding: const EdgeInsets.only(left: 5),
                           child: Text(
                             textAlign: TextAlign.start,
-                            widget.artModelType.price,
+                            widget.artModelType.price.toString(),
                             style: AppTextStyle.blackBodyTextStyle,
                             maxLines: 1,
                           ),
@@ -181,7 +184,7 @@ class _ArtDetailState extends State<ArtDetail> {
                               margin: const EdgeInsets.only(left: 5),
                               child: Text(
                                 textAlign: TextAlign.start,
-                                widget.artModelType.country,                                  
+                                widget.artModelType.author.country,                                  
                                 style: AppTextStyle.blackBodyTextStyle,
                                 maxLines: 1,
                               ),
@@ -199,7 +202,7 @@ class _ArtDetailState extends State<ArtDetail> {
                               margin: const EdgeInsets.only(left: 5, right: 10),
                               child: Text(
                                 textAlign: TextAlign.start,
-                                widget.artModelType.city,
+                                widget.artModelType.author.city,
                                 style: AppTextStyle.blackBodyTextStyle,
                                 maxLines: 1,
                               ),
@@ -231,7 +234,7 @@ class _ArtDetailState extends State<ArtDetail> {
                                   margin: const EdgeInsets.only(left: 5),
                                   child: Text(
                                     textAlign: TextAlign.start,
-                                    widget.artModelType.height,
+                                    widget.artModelType.height.toString(),
                                     style: AppTextStyle.blackBodyTextStyle,
                                     maxLines: 1,
                                   ),
@@ -248,7 +251,7 @@ class _ArtDetailState extends State<ArtDetail> {
                                   margin: const EdgeInsets.only(left: 5, right: 10),
                                   child: Text(
                                     textAlign: TextAlign.start,
-                                    widget.artModelType.width,
+                                    widget.artModelType.width.toString(),
                                     style: AppTextStyle.blackBodyTextStyle,
                                     maxLines: 1,
                                   ),

@@ -15,8 +15,13 @@ initGetIt() {
   // getIt.registerLazySingleton<WarehouseService>(
   //   () => WarehouseServiceImplement(brDio: getIt()),
   // );
+
+
   getIt.registerLazySingleton<ArtDeliveryService>(
     () => ArtListServiceImplement(artDio: getIt()),
+  //   getIt.registerLazySingleton<ArtDeliveryService>(
+  //   () => ArtDeliveryService(artDio: getIt()),
+  
   );
   // getIt.registerLazySingleton<AuthCubitOut>(
   //   () => AuthCubitOut(),

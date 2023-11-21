@@ -7,5 +7,10 @@ class InitialProfileEvent extends  ProfileEvent with EquatableMixin {
   List<Object?> get props => [];
 }
 
+class ProfileLoadedEvent extends  ProfileEvent with EquatableMixin {
+  @override
+  List<Object?> get props => [];
+}
+
 class EditProfileButtonNavigateEvent extends ProfileEvent {}
 class AddPostButtonNavigateEvent extends ProfileEvent {}

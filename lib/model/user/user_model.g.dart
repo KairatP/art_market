@@ -28,3 +28,28 @@
 //       'phone': instance.phone,
 //       'email': instance.email,
 //     };
+
+
+
+
+// {
+//   "succeeded": true,
+//   "message": null,
+//   "errors": null,
+//   "data": {
+//     "price": 123,
+//     "description": "sdfasf",
+//     "width": 123,
+//     "height": 123,
+//     "color": "blue",
+//     "pano": "zccasd",
+//     "country": null,
+//     "city": null,
+//     "url": null,
+//     "createdBy": "19f12105-3fb3-42cb-867d-fc347453a166",
+//     "created": "2023-11-14T04:28:33.4679977Z",
+//     "lastModifiedBy": null,
+//     "lastModified": null,
+//     "id": "f2b89468-afaa-4719-84e5-2b71115cb4f1"
+//   }
+// }

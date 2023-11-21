@@ -1,4 +1,5 @@
 import 'package:art_market/constance/colors.dart';
+import 'package:art_market/dependencies/injection_container.dart';
 import 'package:art_market/router/router_structure.dart';
 import 'package:art_market/screens/art_page/bloc/art_bloc.dart';
 import 'package:art_market/screens/art_page/widget/art_app_bar.dart';
@@ -15,12 +16,28 @@ class ArtPage extends StatefulWidget {
 }
 
 class _ArtPageState extends State<ArtPage> {
-  final ArtBloc artBloc = ArtBloc();
+  final ArtBloc artBloc = ArtBloc(artService: getIt());
 
   @override
   void initState() {
     artBloc.add(InitialOrderEvent());
+    setupController();
     super.initState();
+  }
+
+  var text = '';
+
+  final scrollController = ScrollController();
+  void setupController() {
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        if (scrollController.position.pixels != 0) {
+
+          artBloc.add(
+              ProfilePaginationEvent(searchText: text.isNotEmpty ? text : ''));
+        }
+      }
+    });
   }
 
   @override
@@ -30,25 +47,11 @@ class _ArtPageState extends State<ArtPage> {
       bloc: artBloc,
       listenWhen: (previous, curent) => curent is ArtActionState,
       buildWhen: (previous, curent) => curent is! ArtActionState,
-      // listenWhen: (previous, curent) {
-      //   return true;
-      // },
-      // buildWhen: (previous, curent) {
-      //   return true;
-      // },
       listener: (context, state) {
         if (state is ArtFilterActionState) {
-          // List<List<String>>? myFilterData =
           Navigator.pushNamed(context, RouterStructure.artFilter,
-                  arguments: artBloc);
-          // if (myFilterData!.isNotEmpty) {
-          //   artBloc.add(FilterUserEvent(
-          //       city: myFilterData.last, country: myFilterData.first));
-          // }
+              arguments: artBloc);
         }
-        // if (state is ArtFilterrSelectedState) {
-        //   artBloc.add(FilterViewSelectedEvent());
-        // }
       },
       builder: (context, state) {
         switch (state.runtimeType) {
@@ -78,25 +81,31 @@ class _ArtPageState extends State<ArtPage> {
                         ),
                         onChanged: (value) {
                           // Call bloc event for search
-                          artBloc.add(SearchUserEvent(query: value));
+                          text = value;
+                          artBloc.add(SearchUserEvent(searchText: value));
                         },
                       )),
-                  Expanded(
-                      // List view
-                      child: ListView.separated(
-                          itemCount: successState.artList.length,
-                          shrinkWrap: true,
-                          // physics: NeverScrollableScrollPhysics(),
-                          padding: EdgeInsets.zero,
-                          itemBuilder: (context, index) {
-                            return ArtCell(
-                              artModelType: successState.artList[index],
-                              index: index,
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return const Divider();
-                          })),
+                  successState.artList.isEmpty
+                      ? const Center(
+                          child: Text("No posts yet"),
+                        )
+                      : Expanded(
+                          // List view
+                          child: ListView.separated(
+                              controller: scrollController,
+                              itemCount: successState.artList.length,
+                              shrinkWrap: true,
+                              // physics: NeverScrollableScrollPhysics(),
+                              padding: EdgeInsets.zero,
+                              itemBuilder: (context, index) {
+                                return ArtCell(
+                                  artModelType: successState.artList[index],
+                                  index: index,
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return const Divider();
+                              })),
                 ],
               ),
             );

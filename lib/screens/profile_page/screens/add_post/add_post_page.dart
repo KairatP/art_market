@@ -2,7 +2,10 @@ import 'dart:io';
 
 import 'package:art_market/constance/colors.dart';
 import 'package:art_market/constance/text_style.dart';
+import 'package:art_market/screens/art_page/bloc/art_bloc.dart';
+import 'package:art_market/screens/profile_page/bloc/profile_bloc.dart';
 import 'package:art_market/screens/profile_page/screens/add_post/bloc/add_post_bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,11 +13,10 @@ import 'package:image_picker/image_picker.dart';
 class AddPostPage extends StatelessWidget {
   const AddPostPage({Key? key}) : super(key: key);
 
-  
+  // final IAuthor artModelType;
 
   @override
   Widget build(BuildContext context) {
-    String sendText = "";
     final productBloc = BlocProvider.of<AddPostBloc>(context);
     return Scaffold(
       backgroundColor: AppColors.whiteColor,
@@ -30,7 +32,35 @@ class AddPostPage extends StatelessWidget {
               style: AppTextStyle.blackBodyTextStyle,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              if (productBloc.state.images == null ||
+                  productBloc.state.price.isEmpty ||
+                  productBloc.state.height.isEmpty ||
+                  productBloc.state.width.isEmpty ||
+                  productBloc.state.panoType.isEmpty ||
+                  productBloc.state.colorType.isEmpty ||
+                  productBloc.state.description.isEmpty) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) => CupertinoAlertDialog(
+                    title: const Text('Error'),
+                    content:
+                        const Text('Please enter all required information'),
+                    actions: [
+                      CupertinoDialogAction(
+                        isDefaultAction: true,
+                        onPressed: () => {Navigator.pop(context)},
+                        child: const Text('Ok'),
+                      )
+                    ],
+                  ),
+                );
+              } else {
+                productBloc.add(SavePostEvent(
+                    ));
+                artFirstLoad = true;
+                profileFirstLoad = true;
+                Navigator.pop(context, 'ok');
+              }
             },
           )
         ],
@@ -73,34 +103,38 @@ class AddPostPage extends StatelessWidget {
                                   vertical: 5, horizontal: 5),
                               itemCount: state.images!.length + 1,
                               itemBuilder: (_, i) => Stack(
-                                children: [
-                                  Container(
-                                    height: 100,
-                                    width: 120,
-                                    margin: const EdgeInsets.only(left: 3.0, right: 3.0),
-                                      child: i != state.images!.length ? 
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                            BorderRadius.circular(10),
-                                            image: DecorationImage(
-                                              image: FileImage(
-                                                File(state.images![i].path)
-                                              ),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        )
-                                        : Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
-                                            color:AppColors.whiteColor),
-                                            child: InkWell(
-                                              onTap: () async {
-                                                if (state.images!.isNotEmpty) {
-                                                  final ImagePicker picker =
+                                    children: [
+                                      Container(
+                                        height: 100,
+                                        width: 120,
+                                        margin: const EdgeInsets.only(
+                                            left: 3.0, right: 3.0),
+                                        child: i != state.images!.length
+                                            ? Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  image: DecorationImage(
+                                                    image: FileImage(File(
+                                                        state.images![i].path)),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              )
+                                            : Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color:
+                                                        AppColors.whiteColor),
+                                                child: InkWell(
+                                                  onTap: () async {
+                                                    if (state
+                                                        .images!.isNotEmpty) {
+                                                      final ImagePicker picker =
                                                           ImagePicker();
-                                                  final List<XFile> images =
+                                                      final List<XFile> images =
                                                           await picker
                                                               .pickMultiImage();
                                                       if (images.isNotEmpty) {
@@ -154,31 +188,24 @@ class AddPostPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                        TextFormField(
-                          onChanged: (text) {
-                          sendText = text;
-                          },
-                          maxLength: 30,
-                          // initialValue: "Initial Text",
-                          keyboardType: TextInputType.number,
-                          minLines: 1,
-                          maxLines: 1,
-                          style: AppTextStyle.mainBodyTextStyle,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.attach_money),
-                            labelText: "Price USD",
-                            hintStyle: const TextStyle(color: AppColors.mainColor),
-                            hintText: "Enter your price",
-                            // filled: true,
-                            // fillColor: Colors.blueAccent,
-                            border: OutlineInputBorder(
-                              // borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                          ),
-                        ),
-                    //   ],
-                    // ),
+                    TextFormField(
+                      onChanged: (text) {
+                        productBloc.add(SetPricePostEvent(text));
+                      },
+                      maxLength: 30,
+                      keyboardType: TextInputType.number,
+                      minLines: 1,
+                      maxLines: 1,
+                      style: AppTextStyle.mainBodyTextStyle,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.attach_money),
+                        labelText: "Price USD",
+                        hintStyle: const TextStyle(color: AppColors.mainColor),
+                        hintText: "Enter your price",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
+                    ),
                     const Text("Art property:"),
                     const SizedBox(
                       height: 5,
@@ -188,143 +215,118 @@ class AddPostPage extends StatelessWidget {
                       height: 5,
                     ),
                     TextFormField(
-                          onChanged: (text) {
-                          sendText = text;
-                          },
-                          maxLength: 30,
-                          // initialValue: "Initial Text",
-                          keyboardType: TextInputType.number,
-                          minLines: 1,
-                          maxLines: 1,
-                          style: AppTextStyle.mainBodyTextStyle,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.height),
-                            labelText: "Height",
-                            hintStyle: const TextStyle(color: AppColors.mainColor),
-                            hintText: "Enter your art height",
-                            // filled: true,
-                            // fillColor: Colors.blueAccent,
-                            border: OutlineInputBorder(
-                              // borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
+                      onChanged: (text) {
+                        productBloc.add(SetHeightPostEvent(text));
+                      },
+                      maxLength: 30,
+                      keyboardType: TextInputType.number,
+                      minLines: 1,
+                      maxLines: 1,
+                      style: AppTextStyle.mainBodyTextStyle,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.height),
+                        labelText: "Height",
+                        hintStyle: const TextStyle(color: AppColors.mainColor),
+                        hintText: "Enter your art height",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
+                    ),
+                    const SizedBox(
                       height: 5,
                     ),
                     TextFormField(
-                          onChanged: (text) {
-                          sendText = text;
-                          },
-                          maxLength: 30,
-                          // initialValue: "Initial Text",
-                          keyboardType: TextInputType.number,
-                          minLines: 1,
-                          maxLines: 1,
-                          style: AppTextStyle.mainBodyTextStyle,
-                          decoration: InputDecoration(
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.all(13.0),
-                              child: Image.asset(
-                                'assets/icons/width.png',
-                                width: 18,
-                                height: 18,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            labelText: "Width",
-                            hintStyle: const TextStyle(color: AppColors.mainColor),
-                            hintText: "Enter your art width",
-                            // filled: true,
-                            // fillColor: Colors.blueAccent,
-                            border: OutlineInputBorder(
-                              // borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(10)
-                            ),
+                      onChanged: (text) {
+                        productBloc.add(SetWidthPostEvent(text));
+                      },
+                      maxLength: 30,
+                      keyboardType: TextInputType.number,
+                      minLines: 1,
+                      maxLines: 1,
+                      style: AppTextStyle.mainBodyTextStyle,
+                      decoration: InputDecoration(
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(13.0),
+                          child: Image.asset(
+                            'assets/icons/width.png',
+                            width: 18,
+                            height: 18,
+                            color: Colors.grey,
                           ),
                         ),
+                        labelText: "Width",
+                        hintStyle: const TextStyle(color: AppColors.mainColor),
+                        hintText: "Enter your art width",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
+                    ),
                     const Text("Pano Material:"),
                     const SizedBox(
                       height: 5,
                     ),
                     TextFormField(
-                          onChanged: (text) {
-                          sendText = text;
-                          },
-                          maxLength: 150,
-                          // initialValue: "Initial Text",
-                          keyboardType: TextInputType.text,
-                          minLines: 1,
-                          maxLines: 5,
-                          style: AppTextStyle.mainBodyTextStyle,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.panorama),
-                            labelText: "Pano material description",
-                            hintStyle: const TextStyle(color: AppColors.mainColor),
-                            hintText: "Enter your pano material",
-                            // filled: true,
-                            // fillColor: Colors.blueAccent,
-                            border: OutlineInputBorder(
-                              // borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                          ),
-                        ),
+                      onChanged: (text) {
+                        productBloc.add(SetPanoTypePostEvent(text));
+                      },
+                      maxLength: 150,
+                      keyboardType: TextInputType.text,
+                      minLines: 1,
+                      maxLines: 5,
+                      style: AppTextStyle.mainBodyTextStyle,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.panorama),
+                        labelText: "Pano material description",
+                        hintStyle: const TextStyle(color: AppColors.mainColor),
+                        hintText: "Enter your pano material",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
+                    ),
                     const Text("Color Type:"),
                     const SizedBox(
                       height: 5,
                     ),
                     TextFormField(
-                          onChanged: (text) {
-                          sendText = text;
-                          },
-                          maxLength: 150,
-                          // initialValue: "Initial Text",
-                          keyboardType: TextInputType.text,
-                          minLines: 1,
-                          maxLines: 5,
-                          style: AppTextStyle.mainBodyTextStyle,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.color_lens),
-                            labelText: "Color type description",
-                            hintStyle: const TextStyle(color: AppColors.mainColor),
-                            hintText: "Enter your art color type",
-                            // filled: true,
-                            // fillColor: Colors.blueAccent,
-                            border: OutlineInputBorder(
-                              // borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                          ),
-                        ),
+                      onChanged: (text) {
+                        productBloc.add(SetColorTypePostEvent(text));
+                      },
+                      maxLength: 150,
+                      keyboardType: TextInputType.text,
+                      minLines: 1,
+                      maxLines: 5,
+                      style: AppTextStyle.mainBodyTextStyle,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.color_lens),
+                        labelText: "Color type description",
+                        hintStyle: const TextStyle(color: AppColors.mainColor),
+                        hintText: "Enter your art color type",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
+                    ),
                     const Text("Art description"),
                     const SizedBox(
                       height: 5,
                     ),
                     TextFormField(
-                          onChanged: (text) {
-                          sendText = text;
-                          },
-                          maxLength: 1000,
-                          // initialValue: "Initial Text",
-                          keyboardType: TextInputType.text,
-                          minLines: 1,
-                          maxLines: 30,
-                          style: AppTextStyle.mainBodyTextStyle,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.description),
-                            labelText: "Art description",
-                            hintStyle: const TextStyle(color: AppColors.mainColor),
-                            hintText: "Enter your art description",
-                            // filled: true,
-                            // fillColor: Colors.blueAccent,
-                            border: OutlineInputBorder(
-                              // borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                          ),
-                        ), 
+                      onChanged: (text) {
+                        productBloc.add(SetDescriptionPostEvent(text));
+                      },
+                      maxLength: 1000,
+                      keyboardType: TextInputType.text,
+                      minLines: 1,
+                      maxLines: 30,
+                      style: AppTextStyle.mainBodyTextStyle,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.description),
+                        labelText: "Art description",
+                        hintStyle: const TextStyle(color: AppColors.mainColor),
+                        hintText: "Enter your art description",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
+                    ),
                   ],
                 ),
               ),

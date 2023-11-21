@@ -1,5 +1,3 @@
-
-
 import 'package:art_market/constance/colors.dart';
 import 'package:art_market/dependencies/injection_container.dart';
 import 'package:art_market/dependencies/login_hive.dart';

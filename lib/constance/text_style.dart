@@ -20,6 +20,11 @@ class AppTextStyle {
       fontWeight: FontWeight.normal,
       color: Color.fromARGB(255, 0, 0, 0),
     );
+    static const redBodyTextStyle = TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.normal,
+      color: Color.fromARGB(255, 255, 1, 1),
+    );
     static const blueBodyTextStyle = TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.normal,

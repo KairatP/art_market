@@ -1,7 +1,7 @@
 import 'package:art_market/constance/colors.dart';
 import 'package:art_market/constance/text_style.dart';
 import 'package:art_market/router/router_structure.dart';
-import 'package:art_market/screens/art_page/model/art_model.dart';
+import 'package:art_market/model/art/art_model.dart';
 import 'package:flutter/material.dart';
 
 class ArtCell extends StatelessWidget {
@@ -11,7 +11,7 @@ class ArtCell extends StatelessWidget {
     required this.index,
   }) : super(key: key);
 
-  final ArtModel artModelType;
+  final ArtData artModelType;
   final int index;
 
   @override
@@ -37,7 +37,7 @@ class ArtCell extends StatelessWidget {
               border: Border.all(color: AppColors.mainColor),
               borderRadius: BorderRadius.circular(3),
               image: DecorationImage(
-                image: NetworkImage(artModelType.imageUrl.first),
+                image: NetworkImage(artModelType.urls.first),
                 fit: BoxFit.cover
               ),
             ),
@@ -60,7 +60,7 @@ class ArtCell extends StatelessWidget {
                           margin: const EdgeInsets.only(left: 2, right: 10),
                           child: Text(
                             textAlign: TextAlign.start, 
-                            artModelType.country,
+                            artModelType.author.country,
                             style: AppTextStyle.blackBodyTextStyle,
                             maxLines: 1,
                           ),
@@ -74,7 +74,7 @@ class ArtCell extends StatelessWidget {
                           margin: const EdgeInsets.only(left: 2, right: 10),
                           child: Text(
                             textAlign: TextAlign.start, 
-                            artModelType.city,
+                            artModelType.author.city,
                             style: AppTextStyle.blackBodyTextStyle,
                             maxLines: 1,
                           ),
@@ -92,7 +92,7 @@ class ArtCell extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 2, right: 10),
                           child: Text(
                             textAlign: TextAlign.start, 
-                            artModelType.price,
+                            artModelType.price.toString(),
                             style: AppTextStyle.blackBodyTextStyle,
                             maxLines: 1,
                           ),
@@ -110,7 +110,10 @@ class ArtCell extends StatelessWidget {
                     borderRadius: BorderRadius.circular(25),
                     border: Border.all(color: AppColors.mainColor),
                     image: DecorationImage(
-                      image: NetworkImage(artModelType.avatar),
+                      image: artModelType.author.avaUrl.isEmpty ?
+                      const NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSItZEIqi-mJMnPpWOBUzEGvkE3gsACe19W2Np1neYZyI0PlTv6_WNzFByxz0EkV7equPQ&usqp=CAU')
+                      :
+                      NetworkImage(artModelType.author.avaUrl),
                       fit: BoxFit.cover
                     ),
                     color: AppColors.transparentColor,

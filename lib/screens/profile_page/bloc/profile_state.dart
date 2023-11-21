@@ -4,20 +4,21 @@ abstract class ProfileState {}
 
 final class ProfileInitial extends ProfileState {}
 
-final class ProfileSuccsesState extends ProfileState {}
+class ProfileLoadingState extends ProfileState {}
 
 final class ProfilePostListSuccsesState extends ProfileState
     with EquatableMixin {
-  final List<ProfilePostModel> postList;
-  ProfileUser profileUserData;
+  final List<MyArtData> postList;
+  final UserProfileModel profileUserData;
 
-  ProfilePostListSuccsesState({required this.postList, required this.profileUserData});
+  ProfilePostListSuccsesState({
+    required this.profileUserData,
+    required this.postList,
+  });
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [postList];
 }
 
 final class ProfilePostErrorState extends ProfileState {}
 
 abstract class ProfileActionState extends ProfileState {}
-class ProfileEditActionState extends ProfileActionState {}
-class AddPostActionState extends ProfileActionState {}

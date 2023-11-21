@@ -12,12 +12,11 @@ final class ArtInitial extends ArtState {}
 class ArtLoadingState extends ArtState {}
 
 class ArtLoadedSuccsesState extends ArtState with EquatableMixin {
-  final List<ArtModel> artList;
-
+  final List<ArtData> artList;
   ArtLoadedSuccsesState({required this.artList});
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [artList];
 }
 
 class ArtLoadErrorState extends ArtState {}

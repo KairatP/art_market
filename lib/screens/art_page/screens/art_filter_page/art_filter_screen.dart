@@ -37,7 +37,7 @@ class _ArtFilterPageState extends State<ArtFilterPage> {
 
           Navigator.pop(context);
           widget.bloc.add(FilterUserEvent(
-              city: state.selectedCity, country: state.selectedCountry));
+              country: state.selectedCountry));
 
           // BlocProvider.of<ArtBloc>(context)
           //     .add(FilterUserEvent(city: cityList, country: cityList));
@@ -63,46 +63,13 @@ class _ArtFilterPageState extends State<ArtFilterPage> {
                 body: Center(
                     child: Column(
                   children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Text("Country:"),
-                    Expanded(
-                      flex: 1,
-                      child: ListView(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        children: [
-                          Wrap(
-                            spacing: 10,
-                            children: state.iniCountry
-                                .map((e) => FilterChip(
-                                      selected:
-                                          state.selectedCountry.contains(e),
-                                      label: Text(e),
-                                      onSelected: (selected) {
-                                        if (selected) {
-                                          // state.selectedCountry.add(e);
-                                          filterBloc.add(FilterCountryAddEvent(
-                                              selectedCountry: e));
-                                          // print(countryList);
-                                        } else {
-                                          // state.selectedCountry.remove(e);
-                                          filterBloc.add(
-                                              FilterCountryDelateEvent(
-                                                  selectedCountry: e));
-                                          // print(cityList);
-                                        }
-                                      },
-                                    ))
-                                .toList(),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Text("City:"),
+                    state.selectedCountry.isEmpty ? 
+                    const SizedBox()
+                    :
+                    const Text("Seclected country:"),
+                    state.selectedCountry.isEmpty ? 
+                    const SizedBox() 
+                    :
                     Expanded(
                       flex: 1,
                       child: ListView(
@@ -111,26 +78,65 @@ class _ArtFilterPageState extends State<ArtFilterPage> {
                         children: [
                           Wrap(
                             spacing: 10,
-                            children: state.iniCity
+                            children: state.selectedCountry
                                 .map((e) => FilterChip(
                                       label: Text(e),
-                                      selected: state.selectedCity.contains(e),
+                                      selected: state.selectedCountry.contains(e),
                                       onSelected: (selected) {
-                                        if (selected) {
+                                        // if (selected) {
                                           // state.selectedCity.add(e);
-                                          filterBloc.add(FilterCityAddEvent(
-                                              selectedCity: e));
-                                        } else {
-                                          // state.selectedCity.remove(e);
-                                          filterBloc.add(FilterCityDelateEvent(
-                                              selectedCity: e));
-                                        }
+                                          // filterBloc.add(FilterCityAddEvent(
+                                          //     selectedCity: e));
+                                        // } else {
+                                        //   // state.selectedCity.remove(e);
+                                          filterBloc.add(FilterCountryDelateEvent(
+                                              selectedCountry: e));
+                                        // }
                                       },
                                     ))
                                 .toList(),
                           ),
                         ],
                       ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Text("Country:"),
+                    Expanded(
+                      flex: 5,
+                      child: ListView(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        children: [
+                          Wrap(
+                            spacing: 10,
+                            children: state.iniCountry
+                                .map((e) => FilterChip(
+                                      // selected:
+                                      //     state.selectedCountry.contains(e),
+                                      label: Text(e),
+                                      onSelected: (selected) {
+                                        // if (selected) {
+                                          // state.selectedCountry.add(e);
+                                          filterBloc.add(FilterCountryAddEvent(
+                                              selectedCountry: e));
+                                          // print(countryList);
+                                        // } else {
+                                        //   // state.selectedCountry.remove(e);
+                                        //   filterBloc.add(
+                                        //       FilterCountryDelateEvent(
+                                        //           selectedCountry: e));
+                                        //   // print(cityList);
+                                        // }
+                                      },
+                                    ))
+                                .toList(),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                   ],
                 )));

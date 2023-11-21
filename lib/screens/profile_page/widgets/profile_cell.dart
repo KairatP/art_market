@@ -1,36 +1,35 @@
 import 'package:art_market/constance/colors.dart';
 import 'package:art_market/constance/text_style.dart';
+import 'package:art_market/model/art/my_art_model.dart';
 import 'package:art_market/router/router_structure.dart';
-import 'package:art_market/screens/profile_page/model/profile_model.dart';
-import 'package:art_market/screens/profile_page/model/profile_post_model.dart';
-import 'package:art_market/screens/profile_page/screens/edit_my_post_page/edit_post_page.dart';
 import 'package:flutter/material.dart';
 
 class ProfileCell extends StatelessWidget {
   const ProfileCell({
     Key? key,
     required this.profileModelType,
-    required this.userData,
     required this.index,
+    required this.updatePost,
   }) : super(key: key);
 
-  final ProfilePostModel profileModelType;
-  final ProfileUser userData;
+  final MyArtData profileModelType;
   final int index;
+  final Function(String) updatePost;
 
   @override
   Widget build(BuildContext context) {
     // bool isChanged = false;
-    return 
-    InkWell(
+    return InkWell(
       splashColor: AppColors.transparentColor,
-      onTap: () {
-        Navigator.pushNamed(context, RouterStructure.editPostPage,
-        arguments: EditPostPage(postModelType: profileModelType, userModelType: userData)
-        );
+      onTap: () async {
+        Object? valueUpdatePost = await Navigator.pushNamed(
+            context, RouterStructure.editPostPage,
+            arguments: profileModelType);
+        if (valueUpdatePost.toString() == 'ok') {
+          updatePost(valueUpdatePost.toString());
+        }
       },
-      child: 
-      Column(
+      child: Column(
         children: [
           Container(
             height: 200,
@@ -39,9 +38,8 @@ class ProfileCell extends StatelessWidget {
               border: Border.all(color: AppColors.mainColor),
               borderRadius: BorderRadius.circular(3),
               image: DecorationImage(
-                image: NetworkImage(profileModelType.imageUrl.first),
-                fit: BoxFit.cover
-              ),
+                  image: NetworkImage(profileModelType.urls.first),
+                  fit: BoxFit.cover),
             ),
           ),
           Container(
@@ -61,8 +59,8 @@ class ProfileCell extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.only(left: 2, right: 10),
                           child: Text(
-                            textAlign: TextAlign.start, 
-                            profileModelType.price,
+                            textAlign: TextAlign.start,
+                            profileModelType.price.toString(),
                             style: AppTextStyle.blackBodyTextStyle,
                             maxLines: 1,
                           ),

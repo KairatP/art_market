@@ -53,6 +53,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   Future<FutureOr<void>> _onUserLoginEvent(
       UserLoginEvent event, Emitter<LoginState> emit) async {
+        
     try {
       await authService.login(
           event.username.toString(), event.password.toString());
