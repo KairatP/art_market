@@ -6,6 +6,7 @@ Widget digetTextField({required validator}) {
     width: 50,
     height: 50,
     child: TextFormField(
+      maxLength: 1,
       validator: validator,
       keyboardType: TextInputType.number,
       decoration: const InputDecoration(

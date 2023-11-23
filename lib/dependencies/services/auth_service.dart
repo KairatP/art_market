@@ -72,62 +72,120 @@ class AuthServiceImplement extends AuthService {
     //   }
   }
 
+
   @override
   Future<CreateUserModel> create(
-      String email, String password, String confirmPassword) async {
-    // Map data = {
-    //   'email': email,
-    //   'password': password,
-    //   'confirmPassword': confirmPassword,
-    // };
-    // const api = 'account/create';
-    // Response response;
-    // response = await dio.post(api, data:  jsonEncode(data));
-    // if (response.statusCode == 200) {
-    //   print('success');
-    // } return throw Error();
+    String email, String password, String confirmPassword) async {
+  try {
+    Response response = await dio.post(
+      'account/create',
+      data: {
+        'email': email,
+        'password': password,
+        'confirmPassword': confirmPassword,
+      },
+    );
 
-    try {
-      Response response = await dio.post(
-        'account/create',
-        data: {
-          'email': email,
-          'password': password,
-          'confirmPassword': confirmPassword,
-        },
-      );
-      CreateUserModel createModel = CreateUserModel(
-          message: response.data['message'],
-          errors: response.data['errors'],
-          succeeded: response.data['succeeded'],
-          data: response.data['data']
-        );
-      return createModel;
-    } catch (e) {
-      rethrow;
+    // Check if the response has an error
+    if (response.data['errors'] != null) {
+      // Handle error here, you can throw a custom exception if needed
+      throw Exception('Error in user creation: ${response.data['errors']}');
     }
+
+    CreateUserModel createModel = CreateUserModel(
+      message: response.data['message'],
+      errors: response.data['errors'],
+      succeeded: response.data['succeeded'],
+      data: response.data['data'],
+    );
+    return createModel;
+  } catch (e) {
+    // Handle DioError or other specific errors
+    rethrow;
   }
+}
+
+  // @override
+  // Future<CreateUserModel> create(
+  //     String email, String password, String confirmPassword) async {
+
+  //   try {
+  //     Response response = await dio.post(
+  //       'account/create',
+  //       data: {
+  //         'email': email,
+  //         'password': password,
+  //         'confirmPassword': confirmPassword,
+  //       },
+  //     );
+  //     CreateUserModel createModel = CreateUserModel(
+  //         message: response.data['message'],
+  //         errors: response.data['errors'],
+  //         succeeded: response.data['succeeded'],
+  //         data: response.data['data']
+  //       );
+  //     return createModel;
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
 
   @override
-  Future<ForgetPasswordUserModel> forgetPassword(String email) async {
-    try {
-      Response response = await dio.post(
-        'account/forgotPassword',
-        data: {
-          'email': email,
-        },
+Future<ForgetPasswordUserModel> forgetPassword(String email) async {
+  try {
+    Response response = await dio.post(
+      'account/forgotPassword',
+      data: {
+        'email': email,
+      },
+    );
+
+    // Check if the response has an error (status code 400)
+    if (response.statusCode == 400) {
+      throw (
+        request: response.requestOptions,
+        response: response,
+        type: response,
+        error: 'Bad Request: ${response.data['message']}',
       );
-      ForgetPasswordUserModel forgotModel = ForgetPasswordUserModel(
-        message: response.data['message'],
-        errors: response.data['errors'],
-        succeeded: response.data['succeeded'],
-        data: response.data['data']
-      );
-      return forgotModel;
-    } catch (e) {
-      rethrow;
     }
+
+    ForgetPasswordUserModel forgotModel = ForgetPasswordUserModel(
+      message: response.data['message'],
+      errors: response.data['errors'],
+      succeeded: response.data['succeeded'],
+      data: response.data['data'],
+    );
+    return forgotModel;
+  } on () {
+
+    rethrow; 
+  } catch (e) {
+    rethrow;
   }
+}
+
+
+  // @override
+  // Future<ForgetPasswordUserModel> forgetPassword(String email) async {
+  //   try {
+  //     Response response = await dio.post(
+  //       'account/forgotPassword',
+  //       data: {
+  //         'email': email,
+  //       },
+  //     );
+  //     ForgetPasswordUserModel forgotModel = ForgetPasswordUserModel(
+  //       message: response.data['message'],
+  //       errors: response.data['errors'],
+  //       succeeded: response.data['succeeded'],
+  //       data: response.data['data']
+  //     );
+  //     return forgotModel;
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
 
   @override
   Future<ChangePasswordUserModel> changePassword(

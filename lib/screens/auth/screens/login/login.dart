@@ -126,11 +126,11 @@ class _LoginState extends State<Login> {
               //     context, RouterStructure.tabBar, (route) => false);
               // loginStatus = true;
 
-              // if (_formKey.currentState!.validate()) {
+              if (_formKey.currentState!.validate()) {
                 widget.bloc.add((UserLoginEvent(password: passwordController.text, username: emailController.text)));
-              // } else {
-              //   return;
-              // }
+              } else {
+                return;
+              }
 
             },
             color: AppColors.mainColor,

@@ -43,6 +43,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(UserSussecufulyCreatedState());
       emit(LoginControlState());
     } on DioException {
+      
       emit(IncorrectDataState());
       rethrow;
     } catch (e) {

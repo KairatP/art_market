@@ -169,14 +169,14 @@ class _RegistrationState extends State<Registration> {
               if (_formKey.currentState!.validate()) {
                 widget.bloc.add(UserCreateEvent(confirmPassword: passwordVerificationController.text, email: emailController.text, password: passwordController.text));
 
-                // widget.bloc.add(RegTougleEvent(
-                //     mainAuthTougle: widget.sate.mainTougleState,
-                //     registartionScreen: false,
-                //     forgotScreen: widget.sate.forgotScreen,
-                //     loginScreen: widget.sate.loginScreen,
-                //     forgotPasswordConfirmScreen:
-                //         widget.sate.forgotPasswordConfirmScreen,
-                //     passwordUpdateScreen: widget.sate.passwordUpdateScreen));
+                widget.bloc.add(RegTougleEvent(
+                    mainAuthTougle: widget.sate.mainTougleState,
+                    registartionScreen: false,
+                    forgotScreen: widget.sate.forgotScreen,
+                    loginScreen: widget.sate.loginScreen,
+                    forgotPasswordConfirmScreen:
+                        widget.sate.forgotPasswordConfirmScreen,
+                    passwordUpdateScreen: widget.sate.passwordUpdateScreen));
               } else {
                 return;
               }

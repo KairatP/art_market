@@ -1,16 +1,6 @@
-// class CreateUserModel {
-//   final Object succeeded;
-//   final Object message;
-//   final Object errors;
-//   final Object data;
-
-//   CreateUserModel({required this.succeeded, required this.message, required this.errors, required this.data});
-// }
-
-
 class CreateUserModel {
-  final dynamic succeeded;
-  final dynamic message;
+  final bool? succeeded;
+  final String? message;
   final dynamic errors;
   final dynamic data;
 
@@ -25,7 +15,7 @@ class CreateUserModel {
     return CreateUserModel(
       succeeded: json['succeeded'], 
       message: json['message'], 
-      errors: json['errors'], 
+      errors: json['errors'],
       data: json['data'],
     );
   }
@@ -36,10 +26,11 @@ class CreateUserModel {
       'message': message,
       'errors': errors,
       'data': data,
-
     };
   }
 }
+
+
 
 
 
