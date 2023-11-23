@@ -114,6 +114,7 @@ class _ArtDetailState extends State<ArtDetail> {
                                     widget.artModelType.author.phoneNumber,
                                     style: AppTextStyle.blackBodyTextStyle,
                                     maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ],
@@ -141,10 +142,18 @@ class _ArtDetailState extends State<ArtDetail> {
                         )
                       ],
                     ),
-                    Container(
-                        // Owner Name
-                        padding: const EdgeInsets.only(top: 5, bottom: 15),
-                        child: Text(widget.artModelType.author.name)),
+                    
+                      Container(
+                          // Owner Name
+                          padding: const EdgeInsets.only(top: 5, bottom: 15),
+                          child: Text(
+                            widget.artModelType.author.name,
+                            style: AppTextStyle.blackBodyTextStyle,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.start,
+                            )
+                    ),
                     const Text("Price:"),  // price part
                     Row(
                       children: [
@@ -153,13 +162,16 @@ class _ArtDetailState extends State<ArtDetail> {
                           color: AppColors.blackColor,
                           size: 20.0,
                         ),
-                        Container(
-                          padding: const EdgeInsets.only(left: 5),
-                          child: Text(
-                            textAlign: TextAlign.start,
-                            widget.artModelType.price.toString(),
-                            style: AppTextStyle.blackBodyTextStyle,
-                            maxLines: 1,
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.only(left: 5),
+                            child: Text(
+                              textAlign: TextAlign.start,
+                              widget.artModelType.price.toString(),
+                              style: AppTextStyle.blackBodyTextStyle,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ),
                       ],
@@ -171,152 +183,173 @@ class _ArtDetailState extends State<ArtDetail> {
                       child: const Text("Location:")
                     ), 
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Icon(
                               Icons.public,
                               color: AppColors.blackColor,
                               size: 20.0,
                             ),
-                            Container(
-                              margin: const EdgeInsets.only(left: 5),
-                              child: Text(
-                                textAlign: TextAlign.start,
-                                widget.artModelType.author.country,                                  
-                                style: AppTextStyle.blackBodyTextStyle,
-                                maxLines: 1,
+                            Expanded(
+                              child: Container(
+                                margin: const EdgeInsets.only(left: 5),
+                                child: Text(
+                                  textAlign: TextAlign.start,
+                                  widget.artModelType.author.country,                                  
+                                  style: AppTextStyle.blackBodyTextStyle,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ),
                           ],
                         ),
-                        Row(
+                     
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Icon(
                               Icons.location_on,
                               color: AppColors.blackColor,
                               size: 20.0,
                             ),
-                            Container(
-                              margin: const EdgeInsets.only(left: 5, right: 10),
-                              child: Text(
-                                textAlign: TextAlign.start,
-                                widget.artModelType.author.city,
-                                style: AppTextStyle.blackBodyTextStyle,
-                                maxLines: 1,
+                            Expanded(
+                              child: Container(
+                                margin: const EdgeInsets.only(left: 5, right: 10),
+                                child: Text(
+                                  textAlign: TextAlign.start,
+                                  widget.artModelType.author.city,
+                                  style: AppTextStyle.blackBodyTextStyle,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ),
                           ],
                         ),
-                      ],
-                    ),
                     const SizedBox(height: 10,),
                     const Text("Art property:"),
-                    Row(  // Art information
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          children: [
-                            const Text("Size (cm):"),
-                            Column(
+                    const SizedBox(height: 5,),
+                    const Text("Size (cm):"),
+                    Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                            Row(
                               children: [
                                 const Icon(
                                   Icons.height,
                                   color: AppColors.blackColor,
                                   size: 20.0,
                                 ),
-                                Container(
-                                  margin: const EdgeInsets.only(left: 5),
-                                  child: Text(
-                                    textAlign: TextAlign.start,
-                                    widget.artModelType.height.toString(),
-                                    style: AppTextStyle.blackBodyTextStyle,
-                                    maxLines: 1,
+                                Expanded(
+                                  child: Container(
+                                    margin: const EdgeInsets.only(left: 5),
+                                    child: Text(
+                                      textAlign: TextAlign.start,
+                                      widget.artModelType.height.toString(),
+                                      style: AppTextStyle.blackBodyTextStyle,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Image.asset('assets/icons/width.png',
                                 width: 18,
                                 height: 18,
                                 ),
-                                Container(
-                                  margin: const EdgeInsets.only(left: 5, right: 10),
-                                  child: Text(
-                                    textAlign: TextAlign.start,
-                                    widget.artModelType.width.toString(),
-                                    style: AppTextStyle.blackBodyTextStyle,
-                                    maxLines: 1,
+                                Expanded(
+                                  child: Container(
+                                    margin: const EdgeInsets.only(left: 5, right: 10),
+                                    child: Text(
+                                      textAlign: TextAlign.start,
+                                      widget.artModelType.width.toString(),
+                                      style: AppTextStyle.blackBodyTextStyle,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
-                          ],
-                        ),
-                        ],
-                        ),
-
-
-                        Column(children: [
-                          const Text("Pano Material:"),
-                    Row(
+                            const SizedBox(height: 10,),
+                            const Text("Pano Material:"),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Icon(
                                   Icons.panorama,
                                   color: AppColors.blackColor,
                                   size: 20.0,
                                 ),
-                                Container(
-                                  margin: const EdgeInsets.only(left: 5, right: 10),
-                                  child: Text(
-                                    textAlign: TextAlign.start,
-                                    widget.artModelType.pano,
-                                    style: AppTextStyle.blackBodyTextStyle,
-                                    maxLines: 1,
+                                Expanded(
+                                  child: Container(
+                                    margin: const EdgeInsets.only(left: 5, right: 10),
+                                    child: Text(
+                                      textAlign: TextAlign.start,
+                                      widget.artModelType.pano,
+                                      style: AppTextStyle.blackBodyTextStyle,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
-                        ],
-                          
-                        ),
-
-
-                        Column(children: [
-                          const Text("Color Type:"),
-                    Row(
+                            const SizedBox(height: 10,),
+                            const Text("Color Type:"),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Icon(
                                   Icons.color_lens,
                                   color: AppColors.blackColor,
                                   size: 20.0,
                                 ),
-                                Container(
-                                  margin: const EdgeInsets.only(left: 5, right: 10),
-                                  child: Text(
-                                    textAlign: TextAlign.start,
-                                    widget.artModelType.color,
-                                    style: AppTextStyle.blackBodyTextStyle,
-                                    maxLines: 1,
+                                Expanded(
+                                  child: Container(
+                                    margin: const EdgeInsets.only(left: 5, right: 10),
+                                    child: Text(
+                                      textAlign: TextAlign.start,
+                                      widget.artModelType.color,
+                                      style: AppTextStyle.blackBodyTextStyle,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
-                        ],),
-                      ],
-                    ),
                     Container(
                       padding: const EdgeInsets.only(top: 10),
                       child: const Text("Art description:")
                     ),
-                    Text(widget.artModelType.description),
+
+                    Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // const Icon(
+                                //   Icons.description,
+                                //   color: AppColors.blackColor,
+                                //   size: 20.0,
+                                // ),
+                                Expanded(
+                                  child: Container(
+                                    margin: const EdgeInsets.only(left: 5, right: 10),
+                                    child: Text(
+                                      textAlign: TextAlign.start,
+                                      widget.artModelType.description,
+                                      style: AppTextStyle.blackBodyTextStyle,
+                                      maxLines: 10,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            
                   ],
                 ),
               )

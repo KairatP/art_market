@@ -1,69 +1,33 @@
 part of 'filter_bloc.dart';
 
-// class AddPostState {
-
-//   List<XFile>? images;
-//   AddPostState({required this.images});
-
-//   List<Object> get props => [];
-// }
-
-// class AddPostStateInitial extends AddPostState {
-//   AddPostStateInitial(): super(images: <XFile>[]);
-// }
-
 class FilterState {
   List<String> iniCountry;
-  List<String> iniCity;
   List<String> selectedCountry;
-  List<String> selectedCity;
-
   FilterState({
     required this.iniCountry,
-    required this.iniCity,
     required this.selectedCountry,
-    required this.selectedCity,
   });
-
-  List<Object?> get props => [];
 }
 
 class FilterInitial extends FilterState {
   FilterInitial()
       : super(
-            iniCountry: [], iniCity: [], selectedCountry: [], selectedCity: []);
+            iniCountry: [], selectedCountry: []);
 }
 
-// class FilderSelectesItemsState extends FilterState {
-//   final List<String> country;
-//   final List<String> city;
-//   final List<String> myCountry;
-//   final List<String> myCity;
-
-//   FilderSelectesItemsState({
-//     this.country = const [],
-//     this.city = const [],
-//     this.myCountry = const [],
-//     this.myCity = const [],
-//     // required this.myCountry,
-//     // required this.myCity
-//   }): super(iniCountry: country, iniCity: city, selectedCountry: [], selectedCity: []);
-//   @override
-//   List<Object?> get props =>
-//     [
-//       country,
-//       city,
-//       myCountry,
-//       myCity
-//     ];
-// }
-
 abstract class FilterActionState extends FilterState {
-  FilterActionState({required super.selectedCountry, required super.selectedCity}): super(iniCity: [],iniCountry: []);
+  FilterActionState({required super.selectedCountry}): super(iniCountry: []);
 }
 
 class FilterSelectedActionState extends FilterActionState {
-  FilterSelectedActionState({required super.selectedCountry, required super.selectedCity});
+  FilterSelectedActionState({required super.selectedCountry});
 }
 
+class FilterLoadingState extends FilterState{
+  FilterLoadingState({required super.selectedCountry, required super.iniCountry});
+}
+
+class FilterErrorState extends FilterState{
+  FilterErrorState({required super.selectedCountry, required super.iniCountry});
+}
 

@@ -29,25 +29,26 @@ class _ArtFilterPageState extends State<ArtFilterPage> {
       buildWhen: (previous, curent) => curent is! FilterActionState,
       listener: (BuildContext context, FilterState state) {
         if (state is FilterSelectedActionState) {
-          // Navigator.of(context).pushNamedAndRemoveUntil(
-          //     RouterStructure.tabBar, (Route<dynamic> route) => false);
-          // context
-          //     .read<ArtBloc>()
-          //     .add(FilterUserEvent(city: cityList, country: countryList));
-
-          Navigator.pop(context);
-          widget.bloc.add(FilterUserEvent(
+          Navigator.pop(context, state.selectedCountry);
+          if (state.selectedCountry.isEmpty) {
+            artFirstLoad = true;
+            widget.bloc.add(InitialOrderEvent());
+          } else {
+            widget.bloc.add(FilterUserEvent(
               country: state.selectedCountry));
-
-          // BlocProvider.of<ArtBloc>(context)
-          //     .add(FilterUserEvent(city: cityList, country: cityList));
-          // Navigator.pop(context);
+          }
+          
         }
       },
       builder: (BuildContext context, FilterState state) {
         switch (state.runtimeType) {
+          case FilterLoadingState:
+          return const Center(
+                  child: CircularProgressIndicator(
+                color: AppColors.mainColor,
+              ));
+
           case FilterState:
-            // final filterState = state as FilderSelectesItemsState;
             return Scaffold(
                 backgroundColor: AppColors.whiteColor,
                 appBar: AppBar(
@@ -63,71 +64,30 @@ class _ArtFilterPageState extends State<ArtFilterPage> {
                 body: Center(
                     child: Column(
                   children: [
-                    state.selectedCountry.isEmpty ? 
-                    const SizedBox()
-                    :
-                    const Text("Seclected country:"),
-                    state.selectedCountry.isEmpty ? 
-                    const SizedBox() 
-                    :
-                    Expanded(
-                      flex: 1,
-                      child: ListView(
-                        padding: const EdgeInsets.only(
-                            left: 10, right: 10, bottom: 10),
-                        children: [
-                          Wrap(
-                            spacing: 10,
-                            children: state.selectedCountry
-                                .map((e) => FilterChip(
-                                      label: Text(e),
-                                      selected: state.selectedCountry.contains(e),
-                                      onSelected: (selected) {
-                                        // if (selected) {
-                                          // state.selectedCity.add(e);
-                                          // filterBloc.add(FilterCityAddEvent(
-                                          //     selectedCity: e));
-                                        // } else {
-                                        //   // state.selectedCity.remove(e);
-                                          filterBloc.add(FilterCountryDelateEvent(
-                                              selectedCountry: e));
-                                        // }
-                                      },
-                                    ))
-                                .toList(),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10,),
                     const Text("Country:"),
+                    const SizedBox(height: 10,),
                     Expanded(
-                      flex: 5,
+                      // flex: 5,
                       child: ListView(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        padding: const EdgeInsets.only(left: 5, right: 5),
                         children: [
                           Wrap(
                             spacing: 10,
                             children: state.iniCountry
                                 .map((e) => FilterChip(
-                                      // selected:
-                                      //     state.selectedCountry.contains(e),
+                                      selected:
+                                          state.selectedCountry.contains(e),
                                       label: Text(e),
                                       onSelected: (selected) {
-                                        // if (selected) {
-                                          // state.selectedCountry.add(e);
+                                        if (selected) {
                                           filterBloc.add(FilterCountryAddEvent(
                                               selectedCountry: e));
-                                          // print(countryList);
-                                        // } else {
-                                        //   // state.selectedCountry.remove(e);
-                                        //   filterBloc.add(
-                                        //       FilterCountryDelateEvent(
-                                        //           selectedCountry: e));
-                                        //   // print(cityList);
-                                        // }
+                                        } else {
+                                          filterBloc.add(
+                                              FilterCountryDelateEvent(
+                                                  selectedCountry: e));
+                                        }
                                       },
                                     ))
                                 .toList(),

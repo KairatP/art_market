@@ -63,6 +63,7 @@ class ArtCell extends StatelessWidget {
                             artModelType.author.country,
                             style: AppTextStyle.blackBodyTextStyle,
                             maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         const Icon(
@@ -77,6 +78,7 @@ class ArtCell extends StatelessWidget {
                             artModelType.author.city,
                             style: AppTextStyle.blackBodyTextStyle,
                             maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
@@ -95,6 +97,7 @@ class ArtCell extends StatelessWidget {
                             artModelType.price.toString(),
                             style: AppTextStyle.blackBodyTextStyle,
                             maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],

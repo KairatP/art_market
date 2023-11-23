@@ -6,10 +6,11 @@ abstract class ArtEvent {}
 // Inisiate first data loading
 class InitialOrderEvent extends ArtEvent {}
 
-class ProfilePaginationEvent extends ArtEvent {
+class ArtPaginationEvent extends ArtEvent {
   final String searchText;
+  final List<String> filterList;
 
-  ProfilePaginationEvent({required this.searchText});
+  ArtPaginationEvent({required this.searchText, required this.filterList});
 }
 
 // Navigate to fillter view when press fillter button

@@ -14,12 +14,13 @@ class ProfileEditBloc extends Bloc<ProfileEditEvent, ProfileEditState> {
 
   ProfileEditBloc({required this.userProfile, required this.postService})
       : super(ProfileEditStateInitial(
-            images: File(''),
-            imagesURL: userProfile.data.avaUrl,
-            name: userProfile.data.name,
-            phoneNumber: userProfile.data.phoneNumber,
-            country: userProfile.data.country,
-            city: userProfile.data.city)) {
+          images: File(''),
+          imagesURL: userProfile.data.avaUrl,
+          name: userProfile.data.name,
+          phoneNumber: userProfile.data.phoneNumber,
+          country: userProfile.data.country,
+          city: userProfile.data.city,
+        )) {
     on<SelectImageProfileEvent>(_onSelectImageProfileEvent);
     on<InitialEditProfileEvent>(_onInitialEditProfileEvent);
     on<UpdateEditProfileEvent>(_onUpdateEditProfileEvent);
@@ -28,12 +29,13 @@ class ProfileEditBloc extends Bloc<ProfileEditEvent, ProfileEditState> {
   Future<FutureOr<void>> _onSelectImageProfileEvent(
       SelectImageProfileEvent event, Emitter<ProfileEditState> emit) async {
     emit(ProfileEditState(
-        images: event.images,
-        name: event.name,
-        phoneNumber: event.phoneNumber,
-        country: event.country,
-        city: event.city,
-        imagesURL: state.imagesURL));
+      images: event.images,
+      name: event.name,
+      phoneNumber: event.phoneNumber,
+      country: event.country,
+      city: event.city,
+      imagesURL: state.imagesURL,
+    ));
   }
 
   Future<FutureOr<void>> _onInitialEditProfileEvent(
@@ -50,11 +52,28 @@ class ProfileEditBloc extends Bloc<ProfileEditEvent, ProfileEditState> {
 
   Future<FutureOr<void>> _onUpdateEditProfileEvent(
       UpdateEditProfileEvent event, Emitter<ProfileEditState> emit) async {
-    // ProfileBloc
+    emit(EditProfileLoadingState(
+      images: state.images,
+      name: state.name,
+      phoneNumber: state.phoneNumber,
+      country: state.country,
+      city: state.city,
+      imagesURL: state.imagesURL,
+    ));
     try {
-      await postService.updateMyProfile(event.images, event.name,
-          event.phoneNumber, event.country, event.city);
-      // ProfileBloc.add(InitialProfileEvent());
+      final userProfilePost = await postService.updateMyProfile(event.images,
+          event.name, event.phoneNumber, event.country, event.city);
+
+      if (userProfilePost.succeeded ==  true) {
+        emit(ProfileUpdateState(
+          images: state.images,
+          name: state.name,
+          phoneNumber: state.phoneNumber,
+          country: state.country,
+          city: state.city,
+          imagesURL: state.imagesURL,
+        ));
+      }
     } catch (e) {
       rethrow;
     }

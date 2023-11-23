@@ -14,7 +14,7 @@ class ArtBloc extends Bloc<ArtEvent, ArtState> {
   ArtDeliveryService artService;
   ArtBloc({required this.artService}) : super(ArtInitial()) {
     on<InitialOrderEvent>(_onInitialOrderEvent);
-    on<ProfilePaginationEvent>(_onProfilePaginationEvent);
+    on<ArtPaginationEvent>(_onArtPaginationEvent);
     on<SearchUserEvent>(_onSearchUserEvent);
     on<FilterUserEvent>(_onFilterUserEvent);
     on<FilterButtonNavigateEvent>(_onFilterButtonNavigateEvent);
@@ -28,10 +28,12 @@ class ArtBloc extends Bloc<ArtEvent, ArtState> {
     }
 
     if (artFirstLoad == true) {
+      _pageNumber = 1;
       try {
         _oldPostList.clear();
+
         ArtModel loadedArtData =
-            await artService.getArtList(_pageNumber, 5, '');
+            await artService.getArtList(_pageNumber, 5, '', []);
         emit(ArtLoadedSuccsesState(artList: loadedArtData.data));
         _oldPostList.addAll(loadedArtData.data);
         artFirstLoad = false;
@@ -45,12 +47,12 @@ class ArtBloc extends Bloc<ArtEvent, ArtState> {
     }
   }
 
-  Future<FutureOr<void>> _onProfilePaginationEvent(
-      ProfilePaginationEvent event, Emitter<ArtState> emit) async {
+  Future<FutureOr<void>> _onArtPaginationEvent(
+      ArtPaginationEvent event, Emitter<ArtState> emit) async {
     _pageNumber = _pageNumber + 1;
     try {
-      ArtModel loadedArtData =
-          await artService.getArtList(_pageNumber, 5, event.searchText);
+      ArtModel loadedArtData = await artService.getArtList(
+          _pageNumber, 5, event.searchText, event.filterList);
       _oldPostList.addAll(loadedArtData.data);
       emit(ArtLoadedSuccsesState(artList: _oldPostList));
     } on DioException {
@@ -64,11 +66,11 @@ class ArtBloc extends Bloc<ArtEvent, ArtState> {
       SearchUserEvent event, Emitter<ArtState> emit) async {
     _pageNumber = 1;
     try {
+      _oldPostList.clear();
       ArtModel loadedArtData =
-          await artService.getArtList(_pageNumber, 5, event.searchText);
+          await artService.getArtList(_pageNumber, 5, event.searchText, []);
       emit(ArtLoadedSuccsesState(artList: loadedArtData.data));
       _oldPostList.addAll(loadedArtData.data);
-      _pageNumber = _pageNumber + 1;
     } on DioException {
       // emit(AddPostFailedState());
     } catch (e) {
@@ -76,8 +78,21 @@ class ArtBloc extends Bloc<ArtEvent, ArtState> {
     }
   }
 
-  FutureOr<void> _onFilterUserEvent(
-      FilterUserEvent event, Emitter<ArtState> emit) {}
+  Future<FutureOr<void>> _onFilterUserEvent(
+      FilterUserEvent event, Emitter<ArtState> emit) async {
+    _pageNumber = 1;
+    try {
+      _oldPostList.clear();
+      ArtModel loadedArtData =
+          await artService.getArtList(_pageNumber, 5, '', event.country);
+      emit(ArtLoadedSuccsesState(artList: loadedArtData.data));
+      _oldPostList.addAll(loadedArtData.data);
+    } on DioException {
+      // emit(AddPostFailedState());
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   FutureOr<void> _onFilterButtonNavigateEvent(
       FilterButtonNavigateEvent event, Emitter<ArtState> emit) {

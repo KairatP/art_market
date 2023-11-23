@@ -15,6 +15,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc({required this.postService}) : super(ProfileInitial()) {
     on<InitialProfileEvent>(_onInitialProfileEvent);
     on<ProfileLoadedEvent>(_onProfileLoadedEvent);
+    on<ProfileURLReloadEvent>(_onProfileURLReloadEvent);
+    on<CallFromOtherBlocEvent>(_onCallFromOtherBlocEvent);
   }
 
   FutureOr<void> _onInitialProfileEvent(
@@ -24,9 +26,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
 
     if (profileFirstLoad == true) {
+      _userData.clear();
       _oldOwnPostList.clear();
+      _myPageNumber = 1;
+      _paginationDone = true;
       try {
-        MyArtModel loadedPostData = await postService.getMyArtList(1, 10);
+        MyArtModel loadedPostData = await postService.getMyArtList(1, 5);
         UserProfileModel loadedUserProfileData =
             await postService.getMyProfile();
         emit(ProfilePostListSuccsesState(
@@ -52,20 +57,52 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Future<FutureOr<void>> _onProfileLoadedEvent(
       ProfileLoadedEvent event, Emitter<ProfileState> emit) async {
     _myPageNumber = _myPageNumber + 1;
+    if (_paginationDone == true) {
+      try {
+        MyArtModel loadedPostData =
+            await postService.getMyArtList(_myPageNumber, 5);
+        _oldOwnPostList.addAll(loadedPostData.data);
+
+        emit(ProfilePostListSuccsesState(
+          postList: _oldOwnPostList,
+          profileUserData: _userData.first,
+        ));
+        if (loadedPostData.data.length != 5) {
+          _paginationDone = false;
+        }
+      } on DioException {
+        // emit(AddPostFailedState());
+      } catch (e) {
+        rethrow;
+      }
+    }
+  }
+
+  Future<FutureOr<void>> _onProfileURLReloadEvent(
+      ProfileURLReloadEvent event, Emitter<ProfileState> emit) async {
+    _oldOwnPostList.clear();
+    _userData.clear();
+    _myPageNumber = 1;
     try {
       MyArtModel loadedPostData =
-          await postService.getMyArtList(_myPageNumber, 10);
-      _oldOwnPostList.addAll(loadedPostData.data);
-
+          await postService.getMyArtList(_myPageNumber, 5);
+      UserProfileModel loadedUserProfileData = await postService.getMyProfile();
       emit(ProfilePostListSuccsesState(
-        postList: _oldOwnPostList,
-        profileUserData: _userData.first,
+        postList: loadedPostData.data,
+        profileUserData: loadedUserProfileData,
       ));
+      _oldOwnPostList.addAll(loadedPostData.data);
+      _userData.add(loadedUserProfileData);
     } on DioException {
       // emit(AddPostFailedState());
     } catch (e) {
       rethrow;
     }
+  }
+
+  FutureOr<void> _onCallFromOtherBlocEvent(
+      CallFromOtherBlocEvent event, Emitter<ProfileState> emit) {
+    emit(CallFromOtherBlocState());
   }
 }
 
@@ -73,3 +110,4 @@ bool profileFirstLoad = true;
 final _oldOwnPostList = <MyArtData>[];
 final _userData = <UserProfileModel>[];
 int _myPageNumber = 1;
+bool _paginationDone = true;

@@ -60,3 +60,43 @@ class EditPostStateInitial extends EditPostState {
       required super.country,
       required super.city});
 }
+
+class EditPostLoadingState extends EditPostState {
+  EditPostLoadingState(
+      {required super.userId,
+      required super.postId,
+      required super.images,
+      required super.dotIndicator,
+      required super.price,
+      required super.description,
+      required super.width,
+      required super.height,
+      required super.colorType,
+      required super.panoType,
+      required super.imagesUrls,
+      required super.avaUrl,
+      required super.name,
+      required super.phoneNumber,
+      required super.country,
+      required super.city});
+}
+
+class PostUpdateActionState extends EditPostState {
+  PostUpdateActionState(
+      {required super.userId,
+      required super.postId,
+      required super.images,
+      required super.dotIndicator,
+      required super.price,
+      required super.description,
+      required super.width,
+      required super.height,
+      required super.colorType,
+      required super.panoType,
+      required super.imagesUrls,
+      required super.avaUrl,
+      required super.name,
+      required super.phoneNumber,
+      required super.country,
+      required super.city});
+}

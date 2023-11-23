@@ -27,3 +27,8 @@ class ProfileEditStateInitial extends ProfileEditState {
 class EditProfileLoadingState extends ProfileEditState {
   EditProfileLoadingState({required super.images, required super.imagesURL, required super.name, required super.phoneNumber, required super.country, required super.city});
 }
+
+class ProfileUpdateState extends ProfileEditState {
+  ProfileUpdateState({required super.images, required super.imagesURL, required super.name, required super.phoneNumber, required super.country, required super.city});
+}
+

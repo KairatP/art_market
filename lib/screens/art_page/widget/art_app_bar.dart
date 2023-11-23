@@ -17,7 +17,7 @@ AppBar artAppBar(BuildContext context, ArtBloc bloc) {
             bloc.add(FilterButtonNavigateEvent());
             // Navigator.pushNamed(context, RouterStructure.artFilter);
           },
-          icon: const Icon(Icons.tune,
+          icon: const Icon(Icons.filter_list_alt,
           color: AppColors.mainColor,
           ))
     ],

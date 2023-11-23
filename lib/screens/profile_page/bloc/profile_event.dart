@@ -12,5 +12,8 @@ class ProfileLoadedEvent extends  ProfileEvent with EquatableMixin {
   List<Object?> get props => [];
 }
 
+class ProfileURLReloadEvent extends  ProfileEvent {}
+class CallFromOtherBlocEvent extends  ProfileEvent {}
+
 class EditProfileButtonNavigateEvent extends ProfileEvent {}
 class AddPostButtonNavigateEvent extends ProfileEvent {}

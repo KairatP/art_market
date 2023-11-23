@@ -56,24 +56,6 @@ class DeletePostEvent extends EditPostEvent {
 }
 
 
-class UpdateEditPostEvent extends EditPostEvent {
-  // String id;
-  // List<XFile>? images;
-  // String price;
-  // String description;
-  // String width;
-  // String height;
-  // String colorType;
-  // String panoType;
+class UpdateEditPostEvent extends EditPostEvent {}
 
-  // UpdateEditPostEvent({
-  //   required this.id,
-  //   required this.images,
-  //   required this.price,
-  //   required this.description,
-  //   required this.width,
-  //   required this.height,
-  //   required this.colorType,
-  //   required this.panoType,
-  // });
-}
+

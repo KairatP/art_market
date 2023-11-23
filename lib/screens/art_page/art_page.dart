@@ -19,6 +19,12 @@ class _ArtPageState extends State<ArtPage> {
   final ArtBloc artBloc = ArtBloc(artService: getIt());
 
   @override
+  void dispose() {
+    artScrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     artBloc.add(InitialOrderEvent());
     setupController();
@@ -26,15 +32,16 @@ class _ArtPageState extends State<ArtPage> {
   }
 
   var text = '';
+  List<String> myCountryList = [];
 
-  final scrollController = ScrollController();
+  final artScrollController = ScrollController();
   void setupController() {
-    scrollController.addListener(() {
-      if (scrollController.position.atEdge) {
-        if (scrollController.position.pixels != 0) {
-
-          artBloc.add(
-              ProfilePaginationEvent(searchText: text.isNotEmpty ? text : ''));
+    artScrollController.addListener(() {
+      if (artScrollController.position.atEdge) {
+        if (artScrollController.position.pixels != 0) {
+          artBloc.add(ArtPaginationEvent(
+              searchText: text,
+              filterList: myCountryList));
         }
       }
     });
@@ -42,7 +49,6 @@ class _ArtPageState extends State<ArtPage> {
 
   @override
   Widget build(BuildContext context) {
-    // BlocProvider.of<ArtBloc>(context).
     return BlocConsumer<ArtBloc, ArtState>(
       bloc: artBloc,
       listenWhen: (previous, curent) => curent is ArtActionState,
@@ -50,7 +56,13 @@ class _ArtPageState extends State<ArtPage> {
       listener: (context, state) {
         if (state is ArtFilterActionState) {
           Navigator.pushNamed(context, RouterStructure.artFilter,
-              arguments: artBloc);
+                  arguments: artBloc)
+              .then((Object? value) {
+            // Handle the result when the artFilter screen is popped
+            if (value != null && value is List<String>) {
+              myCountryList = value;
+            }
+          });
         }
       },
       builder: (context, state) {
@@ -87,12 +99,12 @@ class _ArtPageState extends State<ArtPage> {
                       )),
                   successState.artList.isEmpty
                       ? const Center(
-                          child: Text("No posts yet"),
+                          child: Text("No posts"),
                         )
                       : Expanded(
                           // List view
                           child: ListView.separated(
-                              controller: scrollController,
+                              controller: artScrollController,
                               itemCount: successState.artList.length,
                               shrinkWrap: true,
                               // physics: NeverScrollableScrollPhysics(),

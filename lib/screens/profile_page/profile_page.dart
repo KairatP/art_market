@@ -8,11 +8,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
-
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
-
 class _ProfilePageState extends State<ProfilePage> {
   final ProfileBloc profileBloc = ProfileBloc(postService: getIt());
 
@@ -22,7 +20,11 @@ class _ProfilePageState extends State<ProfilePage> {
     setupController();
     super.initState();
   }
-
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
   final scrollController = ScrollController();
   void setupController() {
     scrollController.addListener(() {
@@ -33,8 +35,6 @@ class _ProfilePageState extends State<ProfilePage> {
       }
     });
   }
-
-  // late final IAuthor author;
 
   @override
   Widget build(BuildContext context) {
@@ -52,19 +52,14 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: CircularProgressIndicator(
               color: AppColors.mainColor,
             )));
-
           case ProfilePostListSuccsesState:
             final successState = state as ProfilePostListSuccsesState;
             return Scaffold(
-              appBar:
-                  profileAppBar(context, successState.profileUserData, (value) {
-                if (value == 'ok') {
+              appBar: profileAppBar(context, successState.profileUserData,
+                  () {
                   profileBloc.add(InitialProfileEvent());
-                }
-              }, (valueAddPost) {
-                if (valueAddPost == 'ok') {
+              }, () {
                   profileBloc.add(InitialProfileEvent());
-                }
               }),
               body: successState.postList.isEmpty
                   ? const Center(
@@ -84,8 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   return ProfileCell(
                                     profileModelType:
                                         successState.postList[index],
-                                    index: index,
-                                    updatePost: (updatePostText) {
+                                    index: index, updatePost: (){
                                       profileBloc.add(InitialProfileEvent());
                                     },
                                   );
@@ -110,3 +104,81 @@ class _ProfilePageState extends State<ProfilePage> {
     // );
   }
 }
+
+
+
+// class ProfilePage extends StatelessWidget {
+//   ProfilePage({Key? key}) : super(key: key);
+
+//   final scrollController = ScrollController();
+//   void setupController(context) {
+//     scrollController.addListener(() {
+//       if (scrollController.position.atEdge) {
+//         if (scrollController.position.pixels != 0) {
+//           BlocProvider.of<ProfileBloc>(context).add(ProfileLoadedEvent());
+//         }
+//       }
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     setupController(context);
+//     context.read<ProfileBloc>().add(InitialProfileEvent());
+//     return BlocConsumer<ProfileBloc, ProfileState>(
+//       listenWhen: (previous, curent) => curent is ProfileActionState,
+//       buildWhen: (previous, curent) => curent is! ProfileActionState,
+//       listener: (context, state) {
+//         if (state is CallFromOtherBlocState) {
+//           // context.read<ProfileBloc>().add(ProfileURLReloadEvent());
+//           BlocProvider.of<ProfileBloc>(context).add(ProfileURLReloadEvent());
+//         }
+//       },
+//       builder: (context, state) {
+//         if (state is ProfileLoadingState) {
+//           return const Scaffold(
+//               body: Center(
+//                   child: CircularProgressIndicator(
+//             color: AppColors.mainColor,
+//           )));
+//         }
+//         if (state is ProfilePostListSuccsesState) {
+//           final successState = state;
+//           return Scaffold(
+//             appBar: profileAppBar(
+//               context, successState.profileUserData,
+//             ),
+//             body: successState.postList.isEmpty
+//                 ? const Center(
+//                     child: Text("No published posts"),
+//                   )
+//                 : Column(
+//                     children: [
+//                       Expanded(
+//                           // List view
+//                           child: ListView.separated(
+//                               controller: scrollController,
+//                               itemCount: successState.postList.length,
+//                               shrinkWrap: true,
+//                               // physics: NeverScrollableScrollPhysics(),
+//                               padding: EdgeInsets.zero,
+//                               itemBuilder: (context, index) {
+//                                 return ProfileCell(
+//                                   profileModelType:
+//                                       successState.postList[index],
+//                                   index: index,
+//                                 );
+//                               },
+//                               separatorBuilder: (context, index) {
+//                                 return const Divider();
+//                               })),
+//                     ],
+//                   ),
+//           );
+//         } else {
+//           return const SizedBox();
+//         }
+//       },
+//     );
+//   }
+// }

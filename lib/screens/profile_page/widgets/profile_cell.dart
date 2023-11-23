@@ -14,20 +14,19 @@ class ProfileCell extends StatelessWidget {
 
   final MyArtData profileModelType;
   final int index;
-  final Function(String) updatePost;
+  final Function updatePost;
 
   @override
   Widget build(BuildContext context) {
     // bool isChanged = false;
     return InkWell(
       splashColor: AppColors.transparentColor,
-      onTap: () async {
-        Object? valueUpdatePost = await Navigator.pushNamed(
+      onTap: () {        
+        Navigator.pushNamed(
             context, RouterStructure.editPostPage,
-            arguments: profileModelType);
-        if (valueUpdatePost.toString() == 'ok') {
-          updatePost(valueUpdatePost.toString());
-        }
+            arguments: profileModelType).then((value) => (
+              updatePost()
+            ));
       },
       child: Column(
         children: [
@@ -63,6 +62,7 @@ class ProfileCell extends StatelessWidget {
                             profileModelType.price.toString(),
                             style: AppTextStyle.blackBodyTextStyle,
                             maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],

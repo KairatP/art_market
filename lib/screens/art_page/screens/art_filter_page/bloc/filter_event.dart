@@ -5,12 +5,12 @@ class FilterInitialEvent extends FilterEvent {}
 
 class FilterCountryAddEvent extends FilterEvent {
   final String selectedCountry;
-  FilterCountryAddEvent({this.selectedCountry = ''});
+  FilterCountryAddEvent({required this.selectedCountry});
 }
 
 class FilterCountryDelateEvent extends FilterEvent {
   final String selectedCountry;
-  FilterCountryDelateEvent({this.selectedCountry = ''});
+  FilterCountryDelateEvent({required this.selectedCountry});
 }
 
 class FilterCityAddEvent extends FilterEvent {

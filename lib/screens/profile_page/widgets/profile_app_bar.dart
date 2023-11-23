@@ -6,19 +6,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 AppBar profileAppBar(BuildContext context, UserProfileModel profileData,
-    Function(String) updateProfile, Function(String) addPost) {
+    Function updateProfile, Function addPost) {
+      // Function(String) updatePost,
   return AppBar(
     centerTitle: true,
     backgroundColor: AppColors.whiteColor,
     title: GestureDetector(
-      onTap: () async {
-        Object? value = await Navigator.pushNamed(
+      onTap: () {
+        Navigator.pushNamed(
             context, RouterStructure.profileEditPage,
-            arguments: profileData);
-        if (value.toString() == "ok") {
-          updateProfile(value.toString());
-        }
-        // bloc.add(EditProfileButtonNavigateEvent());
+            arguments: profileData).then((value) => (
+              updateProfile()
+            ));
       },
       child: Row(
         children: [
@@ -50,7 +49,7 @@ AppBar profileAppBar(BuildContext context, UserProfileModel profileData,
       IconButton(
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
-          onPressed: () async {
+          onPressed: () {
             if (profileData.data.city.isEmpty ||
                 profileData.data.country.isEmpty ||
                 profileData.data.name.isEmpty ||
@@ -75,13 +74,11 @@ AppBar profileAppBar(BuildContext context, UserProfileModel profileData,
                 ),
               );
             } else {
-              Object? valueNewPost = await Navigator.pushNamed( context,
+               Navigator.pushNamed( context,
                 RouterStructure.addPostPage,
-              );
-
-              if (valueNewPost.toString() == "ok") { 
-                addPost(valueNewPost.toString());
-              }
+              ).then((value) => (
+              addPost
+            ));
             }
           },
           icon: const Icon(

@@ -44,7 +44,6 @@ class EditPostBloc extends Bloc<EditPostEvent, EditPostState> {
     on<EditPosDescriptionEvent>(_onEditPosDescriptionEvent);
     on<UpdateEditPostEvent>(_onUpdateEditPostEvent);
     on<DeletePostEvent>(_onDeletePostEvent);
-    
   }
 
   FutureOr<void> _onEditPosInitialEvent(
@@ -137,7 +136,8 @@ class EditPostBloc extends Bloc<EditPostEvent, EditPostState> {
     ));
   }
 
-  FutureOr<void> _onEditPosPriceEvent(EditPosPriceEvent event, Emitter<EditPostState> emit) {
+  FutureOr<void> _onEditPosPriceEvent(
+      EditPosPriceEvent event, Emitter<EditPostState> emit) {
     emit(EditPostState(
       images: state.images,
       dotIndicator: state.dotIndicator,
@@ -158,7 +158,8 @@ class EditPostBloc extends Bloc<EditPostEvent, EditPostState> {
     ));
   }
 
-  FutureOr<void> _onUEditPosHeightEvent(EditPosHeightEvent event, Emitter<EditPostState> emit) {
+  FutureOr<void> _onUEditPosHeightEvent(
+      EditPosHeightEvent event, Emitter<EditPostState> emit) {
     emit(EditPostState(
       images: state.images,
       dotIndicator: state.dotIndicator,
@@ -179,7 +180,8 @@ class EditPostBloc extends Bloc<EditPostEvent, EditPostState> {
     ));
   }
 
-  FutureOr<void> _onEditPosWidthEvent(EditPosWidthEvent event, Emitter<EditPostState> emit) {
+  FutureOr<void> _onEditPosWidthEvent(
+      EditPosWidthEvent event, Emitter<EditPostState> emit) {
     emit(EditPostState(
       images: state.images,
       dotIndicator: state.dotIndicator,
@@ -200,7 +202,8 @@ class EditPostBloc extends Bloc<EditPostEvent, EditPostState> {
     ));
   }
 
-  FutureOr<void> _onEditPosPanoEvent(EditPosPanoEvent event, Emitter<EditPostState> emit) {
+  FutureOr<void> _onEditPosPanoEvent(
+      EditPosPanoEvent event, Emitter<EditPostState> emit) {
     emit(EditPostState(
       images: state.images,
       dotIndicator: state.dotIndicator,
@@ -221,7 +224,8 @@ class EditPostBloc extends Bloc<EditPostEvent, EditPostState> {
     ));
   }
 
-  FutureOr<void> _onEditPosColorEvent(EditPosColorEvent event, Emitter<EditPostState> emit) {
+  FutureOr<void> _onEditPosColorEvent(
+      EditPosColorEvent event, Emitter<EditPostState> emit) {
     emit(EditPostState(
       images: state.images,
       dotIndicator: state.dotIndicator,
@@ -242,7 +246,8 @@ class EditPostBloc extends Bloc<EditPostEvent, EditPostState> {
     ));
   }
 
-  FutureOr<void> _onEditPosDescriptionEvent(EditPosDescriptionEvent event, Emitter<EditPostState> emit) {
+  FutureOr<void> _onEditPosDescriptionEvent(
+      EditPosDescriptionEvent event, Emitter<EditPostState> emit) {
     emit(EditPostState(
       images: state.images,
       dotIndicator: state.dotIndicator,
@@ -263,8 +268,26 @@ class EditPostBloc extends Bloc<EditPostEvent, EditPostState> {
     ));
   }
 
-    Future<FutureOr<void>> _onUpdateEditPostEvent(
+  Future<FutureOr<void>> _onUpdateEditPostEvent(
       UpdateEditPostEvent event, Emitter<EditPostState> emit) async {
+    emit(EditPostLoadingState(
+      images: state.images,
+      dotIndicator: state.dotIndicator,
+      userId: state.userId,
+      postId: state.postId,
+      price: state.price,
+      description: state.description,
+      width: state.width,
+      height: state.height,
+      colorType: state.colorType,
+      panoType: state.panoType,
+      imagesUrls: state.imagesUrls,
+      avaUrl: state.avaUrl,
+      name: state.name,
+      phoneNumber: state.phoneNumber,
+      country: state.country,
+      city: state.city,
+    ));
     List<File> filelist = [];
     if (state.images != null) {
       for (var element in state.images!) {
@@ -278,19 +301,73 @@ class EditPostBloc extends Bloc<EditPostEvent, EditPostState> {
     int width = int.parse(state.width);
     int height = int.parse(state.height);
     try {
-      await postService.updateMyPost(state.postId, price, state.description, width,
-          height, state.colorType, state.panoType, filelist);
+      await postService.updateMyPost(state.postId, price, state.description,
+          width, height, state.colorType, state.panoType, filelist);
+      emit(PostUpdateActionState(
+        images: state.images,
+      dotIndicator: state.dotIndicator,
+      userId: state.userId,
+      postId: state.postId,
+      price: state.price,
+      description: state.description,
+      width: state.width,
+      height: state.height,
+      colorType: state.colorType,
+      panoType: state.panoType,
+      imagesUrls: state.imagesUrls,
+      avaUrl: state.avaUrl,
+      name: state.name,
+      phoneNumber: state.phoneNumber,
+      country: state.country,
+      city: state.city,
+      ));
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<FutureOr<void>> _onDeletePostEvent(DeletePostEvent event, Emitter<EditPostState> emit) async {
+  Future<FutureOr<void>> _onDeletePostEvent(
+      DeletePostEvent event, Emitter<EditPostState> emit) async {
+      emit(EditPostLoadingState(
+      images: state.images,
+      dotIndicator: state.dotIndicator,
+      userId: state.userId,
+      postId: state.postId,
+      price: state.price,
+      description: state.description,
+      width: state.width,
+      height: state.height,
+      colorType: state.colorType,
+      panoType: state.panoType,
+      imagesUrls: state.imagesUrls,
+      avaUrl: state.avaUrl,
+      name: state.name,
+      phoneNumber: state.phoneNumber,
+      country: state.country,
+      city: state.city,
+    ));
     try {
       await postService.deletePost(event.postId);
+      emit(PostUpdateActionState(
+        images: state.images,
+      dotIndicator: state.dotIndicator,
+      userId: state.userId,
+      postId: state.postId,
+      price: state.price,
+      description: state.description,
+      width: state.width,
+      height: state.height,
+      colorType: state.colorType,
+      panoType: state.panoType,
+      imagesUrls: state.imagesUrls,
+      avaUrl: state.avaUrl,
+      name: state.name,
+      phoneNumber: state.phoneNumber,
+      country: state.country,
+      city: state.city,
+      ));
     } catch (e) {
       rethrow;
     }
-
   }
 }

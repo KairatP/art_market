@@ -25,6 +25,7 @@ class AddPostBloc extends Bloc<AddPostEvent, AddPostState> {
     on<InitialAddPostEvent>(_onInitialAddPostEvent);
   }
 
+
   FutureOr<void> _onInitialAddPostEvent(
       InitialAddPostEvent event, Emitter<AddPostState> emit) async {
     try {
@@ -162,6 +163,15 @@ class AddPostBloc extends Bloc<AddPostEvent, AddPostState> {
 
   Future<FutureOr<void>> _onSavePostEvent(
       SavePostEvent event, Emitter<AddPostState> emit) async {
+        emit(AddPostLoadingState(
+          images: state.images,
+          price: state.price,
+          description: state.description,
+          width: state.width,
+          height: state.height,
+          colorType: state.colorType,
+          panoType: state.panoType,
+    ));
     List<File> filelist = [];
     for (var element in state.images!) {
       filelist.add(File(element.path));
@@ -178,6 +188,16 @@ class AddPostBloc extends Bloc<AddPostEvent, AddPostState> {
           state.colorType.toString(),
           state.panoType.toString(),
           filelist);
+      
+      emit(SaveNewPostState(
+        images: state.images,
+          price: state.price,
+          description: state.description,
+          width: state.width,
+          height: state.height,
+          colorType: state.colorType,
+          panoType: state.panoType,
+      ));
     } on DioException {
       rethrow;
     } catch (e) {
