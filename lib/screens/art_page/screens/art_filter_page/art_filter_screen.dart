@@ -30,43 +30,46 @@ class _ArtFilterPageState extends State<ArtFilterPage> {
       listener: (BuildContext context, FilterState state) {
         if (state is FilterSelectedActionState) {
           Navigator.pop(context, state.selectedCountry);
-          if (state.selectedCountry.isEmpty) {
+          if (state.selectedCountry.isNotEmpty) {
+            print(state.selectedCountry);
+            widget.bloc.add(FilterUserEvent(country: state.selectedCountry));           
+          } else {
+            print(state.selectedCountry);
             artFirstLoad = true;
             widget.bloc.add(InitialOrderEvent());
-          } else {
-            widget.bloc.add(FilterUserEvent(
-              country: state.selectedCountry));
           }
-          
         }
       },
       builder: (BuildContext context, FilterState state) {
         switch (state.runtimeType) {
           case FilterLoadingState:
-          return const Center(
-                  child: CircularProgressIndicator(
-                color: AppColors.mainColor,
-              ));
+            return const Center(
+                child: CircularProgressIndicator(
+              color: AppColors.mainColor,
+            ));
 
           case FilterState:
             return Scaffold(
                 backgroundColor: AppColors.whiteColor,
                 appBar: AppBar(
                   leading: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios),
-                    onPressed: () {
-                      filterBloc.add(FilterSelectedNavigateEvent());
-                    }
-                  ),
+                      icon: const Icon(Icons.arrow_back_ios),
+                      onPressed: () {
+                        filterBloc.add(FilterSelectedNavigateEvent());
+                      }),
                   title: const Text("Filter"),
                   backgroundColor: AppColors.whiteColor,
                 ),
                 body: Center(
                     child: Column(
                   children: [
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     const Text("Country:"),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Expanded(
                       // flex: 5,
                       child: ListView(
