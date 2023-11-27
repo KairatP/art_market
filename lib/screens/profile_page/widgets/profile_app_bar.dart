@@ -38,9 +38,12 @@ AppBar profileAppBar(BuildContext context, UserProfileModel profileData,
               ),
             ),
           ),
-          Text(
-            profileData.data.name,
-            style: AppTextStyle.appBarTextStyle,
+          Expanded(
+            child: Text(
+              profileData.data.name,
+              style: AppTextStyle.appBarTextStyle,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),
@@ -77,7 +80,7 @@ AppBar profileAppBar(BuildContext context, UserProfileModel profileData,
                Navigator.pushNamed( context,
                 RouterStructure.addPostPage,
               ).then((value) => (
-              addPost
+              addPost()
             ));
             }
           },

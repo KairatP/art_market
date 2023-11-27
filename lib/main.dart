@@ -4,14 +4,16 @@ import 'package:art_market/dependencies/login_hive.dart';
 import 'package:art_market/router/router.dart';
 import 'package:art_market/router/router_structure.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-
-
-
 
 bool welcomePage = true;
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp
+  ]);
   // setupLocator();
   await initGetIt();
   await initHive();

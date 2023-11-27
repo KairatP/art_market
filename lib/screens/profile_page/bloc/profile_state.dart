@@ -6,9 +6,7 @@ final class ProfileInitial extends ProfileState {}
 
 class ProfileLoadingState extends ProfileState {}
 
-final class ProfilePostListSuccsesState extends ProfileState
-    with EquatableMixin 
-    {
+final class ProfilePostListSuccsesState extends ProfileState {
   final List<MyArtData> postList;
   final UserProfileModel profileUserData;
 
@@ -16,8 +14,6 @@ final class ProfilePostListSuccsesState extends ProfileState
     required this.profileUserData,
     required this.postList,
   });
-  @override
-  List<Object?> get props => [postList, profileUserData];
 }
 
 final class ProfilePostErrorState extends ProfileState {}

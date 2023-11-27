@@ -46,65 +46,69 @@ class ArtCell extends StatelessWidget {
             margin: const EdgeInsets.only(left: 10, right: 10, top: 5),
             child: Row(
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.public,
-                          color: AppColors.blackColor,
-                          size: 20.0,
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(left: 2, right: 10),
-                          child: Text(
-                            textAlign: TextAlign.start, 
-                            artModelType.author.country,
-                            style: AppTextStyle.blackBodyTextStyle,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.public,
+                            color: AppColors.blackColor,
+                            size: 20.0,
                           ),
-                        ),
-                        const Icon(
-                          Icons.location_on,
-                          color: AppColors.blackColor,
-                          size: 20.0,
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(left: 2, right: 10),
-                          child: Text(
-                            textAlign: TextAlign.start, 
-                            artModelType.author.city,
-                            style: AppTextStyle.blackBodyTextStyle,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                          Container(
+                            margin: const EdgeInsets.only(left: 2, right: 10),
+                            child: Text(
+                              textAlign: TextAlign.start, 
+                              artModelType.author.country,
+                              style: AppTextStyle.blackBodyTextStyle,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.attach_money,
-                          color: AppColors.blackColor,
-                          size: 20.0,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(left: 2, right: 10),
-                          child: Text(
-                            textAlign: TextAlign.start, 
-                            artModelType.price.toString(),
-                            style: AppTextStyle.blackBodyTextStyle,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                          const Icon(
+                            Icons.location_on,
+                            color: AppColors.blackColor,
+                            size: 20.0,
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          Expanded(
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 2, right: 10),
+                              child: Text(
+                                textAlign: TextAlign.start, 
+                                artModelType.author.city,
+                                style: AppTextStyle.blackBodyTextStyle,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.attach_money,
+                            color: AppColors.blackColor,
+                            size: 20.0,
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(left: 2, right: 10),
+                            child: Text(
+                              textAlign: TextAlign.start, 
+                              artModelType.price.toString(),
+                              style: AppTextStyle.blackBodyTextStyle,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                const Spacer(),
+
                 Container(
                   margin: const EdgeInsets.only(right: 10),
                   width: 50,

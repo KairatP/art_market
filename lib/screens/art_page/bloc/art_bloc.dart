@@ -4,7 +4,6 @@ import 'package:art_market/model/art/art_model.dart';
 import 'package:art_market/dependencies/services/delivery_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 part 'art_event.dart';
@@ -49,21 +48,29 @@ class ArtBloc extends Bloc<ArtEvent, ArtState> {
 
   Future<FutureOr<void>> _onArtPaginationEvent(
       ArtPaginationEvent event, Emitter<ArtState> emit) async {
-    _pageNumber = _pageNumber + 1;
-    try {
-      ArtModel loadedArtData = await artService.getArtList(
-          _pageNumber, 5, event.searchText, event.filterList);
-      _oldPostList.addAll(loadedArtData.data);
-      emit(ArtLoadedSuccsesState(artList: _oldPostList));
-    } on DioException {
-      // emit(AddPostFailedState());
-    } catch (e) {
-      rethrow;
+    if (_pagination == true) {
+      _pagination = false;
+      _pageNumber = _pageNumber + 1;
+      try {
+        ArtModel loadedArtData = await artService.getArtList(
+            _pageNumber, 5, event.searchText, event.filterList);
+        _oldPostList.addAll(loadedArtData.data);
+        emit(ArtLoadedSuccsesState(artList: _oldPostList));
+        _pagination = true;
+        if (loadedArtData.data.length != 5) {
+          _pagination = false;
+        }
+      } on DioException {
+        // emit(AddPostFailedState());
+      } catch (e) {
+        rethrow;
+      }
     }
   }
 
   FutureOr<void> _onSearchUserEvent(
       SearchUserEvent event, Emitter<ArtState> emit) async {
+    _pagination = true;
     _pageNumber = 1;
     try {
       _oldPostList.clear();
@@ -81,6 +88,7 @@ class ArtBloc extends Bloc<ArtEvent, ArtState> {
   Future<FutureOr<void>> _onFilterUserEvent(
       FilterUserEvent event, Emitter<ArtState> emit) async {
     _pageNumber = 1;
+    _pagination = true;
     try {
       _oldPostList.clear();
       ArtModel loadedArtData =
@@ -103,6 +111,7 @@ class ArtBloc extends Bloc<ArtEvent, ArtState> {
 bool artFirstLoad = true;
 final _oldPostList = <ArtData>[];
 int _pageNumber = 1;
+bool _pagination = true;
 
 
 // class ArtBloc extends Bloc<ArtEvent, ArtState> {
