@@ -1,91 +1,91 @@
-buildscript {
-    ext.kotlin_version = '1.6.0'
-    repositories {
-        google()
-        mavenCentral()
-    }
+// buildscript {
+//     ext.kotlin_version = '1.6.0'
+//     repositories {
+//         google()
+//         mavenCentral()
+//     }
 
-    dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
+//     dependencies {
+//         classpath 'com.android.tools.build:gradle:4.1.0'
+//         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+//     }
+// }
 
-plugins {
-    id "com.android.application"
-    id "kotlin-android"
-    id "dev.flutter.flutter-gradle-plugin"
-}
+// plugins {
+//     id "com.android.application"
+//     id "kotlin-android"
+//     id "dev.flutter.flutter-gradle-plugin"
+// }
 
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
-}
+// def localProperties = new Properties()
+// def localPropertiesFile = rootProject.file('local.properties')
+// if (localPropertiesFile.exists()) {
+//     localPropertiesFile.withReader('UTF-8') { reader ->
+//         localProperties.load(reader)
+//     }
+// }
 
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
-if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
-}
+// def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+// if (flutterVersionCode == null) {
+//     flutterVersionCode = '1'
+// }
 
-def flutterVersionName = localProperties.getProperty('flutter.versionName')
-if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
-}
+// def flutterVersionName = localProperties.getProperty('flutter.versionName')
+// if (flutterVersionName == null) {
+//     flutterVersionName = '1.0'
+// }
 
-def keystorePropertiesFile = rootProject.file('key.properties')
-def keystoreProperties = new Properties()
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-}
+// def keystorePropertiesFile = rootProject.file('key.properties')
+// def keystoreProperties = new Properties()
+// if (keystorePropertiesFile.exists()) {
+//     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+// }
 
-android {
-    namespace "com.example.art_market"
-    compileSdkVersion flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+// android {
+//     namespace "com.example.art_market"
+//     compileSdkVersion flutter.compileSdkVersion
+//     ndkVersion flutter.ndkVersion
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+//     compileOptions {
+//         sourceCompatibility JavaVersion.VERSION_1_8
+//         targetCompatibility JavaVersion.VERSION_1_8
+//     }
 
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
+//     kotlinOptions {
+//         jvmTarget = '1.8'
+//     }
 
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
+//     sourceSets {
+//         main.java.srcDirs += 'src/main/kotlin'
+//     }
 
-    defaultConfig {
-        applicationId "com.example.art_market"
-        minSdkVersion 20
-        targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
-        multiDexEnabled true
-    }
+//     defaultConfig {
+//         applicationId "com.example.art_market"
+//         minSdkVersion 20
+//         targetSdkVersion flutter.targetSdkVersion
+//         versionCode flutterVersionCode.toInteger()
+//         versionName flutterVersionName
+//         multiDexEnabled true
+//     }
 
-    signingConfigs {
-        release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-            storePassword keystoreProperties['storePassword']
-        }
-    }
-    buildTypes {
-        release {
-            signingConfig signingConfigs.release
-        }
-    }
-}
+//     signingConfigs {
+//         release {
+//             keyAlias keystoreProperties['keyAlias']
+//             keyPassword keystoreProperties['keyPassword']
+//             storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+//             storePassword keystoreProperties['storePassword']
+//         }
+//     }
+//     buildTypes {
+//         release {
+//             signingConfig signingConfigs.release
+//         }
+//     }
+// }
 
-flutter {
-    source '../..'
-}
+// flutter {
+//     source '../..'
+// }
 
 
 
@@ -176,93 +176,99 @@ flutter {
 
 
 
-// // buildscript {
-// //     repositories {
-// //         google()
-// //         jcenter()
-// //     }
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
 
-// //     dependencies {
-// //         classpath 'com.android.tools.build:gradle:4.1.0' // Use the desired version here
-// //     }
-// // }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.1.0' // Use the desired version here
+    }
+}
 
-// // plugins {
-// //     id "com.android.application"
-// //     id "kotlin-android"
-// //     id "dev.flutter.flutter-gradle-plugin"
-// // }
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
 
-// // def localProperties = new Properties()
-// // def localPropertiesFile = rootProject.file('local.properties')
-// // if (localPropertiesFile.exists()) {
-// //     localPropertiesFile.withReader('UTF-8') { reader ->
-// //         localProperties.load(reader)
-// //     }
-// // }
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
 
-// // def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
-// // if (flutterVersionCode == null) {
-// //     flutterVersionCode = '1'
-// // }
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
 
-// // def flutterVersionName = localProperties.getProperty('flutter.versionName')
-// // if (flutterVersionName == null) {
-// //     flutterVersionName = '1.0'
-// // }
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
 
-// // def keystorePropertiesFile = rootProject.file('key.properties')
-// //   if (keystorePropertiesFile.exists()) {
-// //     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-// //    }
+def keystorePropertiesFile = rootProject.file('key.properties')
+  if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+   }
 
 
-// // android {
-// //     namespace "com.example.art_market"
-// //     compileSdkVersion flutter.compileSdkVersion
-// //     ndkVersion flutter.ndkVersion
+android {
+    namespace "com.example.art_market"
+    compileSdkVersion flutter.compileSdkVersion
+    ndkVersion flutter.ndkVersion
 
-// //     compileOptions {
-// //         sourceCompatibility JavaVersion.VERSION_1_8
-// //         targetCompatibility JavaVersion.VERSION_1_8
-// //     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
-// //     kotlinOptions {
-// //         jvmTarget = '1.8'
-// //     }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 
-// //     sourceSets {
-// //         main.java.srcDirs += 'src/main/kotlin'
-// //     }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
 
-// //     defaultConfig {
-// //         applicationId "com.example.art_market"
-// //         minSdkVersion 20
-// //         targetSdkVersion flutter.targetSdkVersion
-// //         versionCode flutterVersionCode.toInteger()
-// //         versionName flutterVersionName
-// //         multiDexEnabled true
-// //     }
+    defaultConfig {
+        applicationId "com.example.art_market"
+        minSdkVersion 20
+        targetSdkVersion flutter.targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+        multiDexEnabled true
+    }
 
-// //     signingConfigs {
-// //       release {
-// //         keyAlias keystoreProperties['keyAlias']
-// //         keyPassword keystoreProperties['keyPassword']
-// //         storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-// //         storePassword keystoreProperties['storePassword']
-// //       }
-// //    }
-// //    buildTypes {
-// //        release {
-// //            signingConfig signingConfigs.release
-// //        }
-// //    }
+//     signingConfigs {
+//       release {
+//         keyAlias keystoreProperties['keyAlias']
+//         keyPassword keystoreProperties['keyPassword']
+//         storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+//         storePassword keystoreProperties['storePassword']
+//       }
+//    }
+//    buildTypes {
+//        release {
+//            signingConfig signingConfigs.release
+//        }
+//    }
 
-// // }
+buildTypes {
+       release {
+           signingConfig signingConfigs.debug
+       }
+   }
 
-// // flutter {
-// //     source '../..'
-// // }
+}
+
+flutter {
+    source '../..'
+}
 
 
 

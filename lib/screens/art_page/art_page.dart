@@ -39,9 +39,8 @@ class _ArtPageState extends State<ArtPage> {
     artScrollController.addListener(() {
       if (artScrollController.position.atEdge) {
         if (artScrollController.position.pixels != 0) {
-          artBloc.add(ArtPaginationEvent(
-              searchText: text,
-              filterList: myCountryList));
+          artBloc.add(
+              ArtPaginationEvent(searchText: text, filterList: myCountryList));
         }
       }
     });
@@ -61,6 +60,8 @@ class _ArtPageState extends State<ArtPage> {
             // Handle the result when the artFilter screen is popped
             if (value != null && value is List<String>) {
               myCountryList = value;
+            } else if (value == null) {
+              myCountryList = [];
             }
           });
         }
