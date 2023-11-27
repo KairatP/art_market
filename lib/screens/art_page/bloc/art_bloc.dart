@@ -28,6 +28,7 @@ class ArtBloc extends Bloc<ArtEvent, ArtState> {
 
     if (artFirstLoad == true) {
       _pageNumber = 1;
+      _pagination == true;
       try {
         _oldPostList.clear();
 
