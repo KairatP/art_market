@@ -31,10 +31,8 @@ class _ArtFilterPageState extends State<ArtFilterPage> {
         if (state is FilterSelectedActionState) {
           Navigator.pop(context, state.selectedCountry);
           if (state.selectedCountry.isNotEmpty) {
-            print(state.selectedCountry);
             widget.bloc.add(FilterUserEvent(country: state.selectedCountry));           
           } else {
-            print(state.selectedCountry);
             artFirstLoad = true;
             widget.bloc.add(InitialOrderEvent());
           }

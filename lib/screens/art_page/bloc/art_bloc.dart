@@ -28,7 +28,6 @@ class ArtBloc extends Bloc<ArtEvent, ArtState> {
 
     if (artFirstLoad == true) {
       _pageNumber = 1;
-      _pagination == true;
       try {
         _oldPostList.clear();
 
@@ -37,6 +36,7 @@ class ArtBloc extends Bloc<ArtEvent, ArtState> {
         emit(ArtLoadedSuccsesState(artList: loadedArtData.data));
         _oldPostList.addAll(loadedArtData.data);
         artFirstLoad = false;
+        _pagination = true;
       } on DioException {
         // emit(AddPostFailedState());
       } catch (e) {
