@@ -19,3 +19,5 @@ class ArtDetailWidget extends StatelessWidget {
     );
   }
 }
+
+
