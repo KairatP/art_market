@@ -36,10 +36,13 @@ class ArtCell extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border.all(color: AppColors.mainColor),
               borderRadius: BorderRadius.circular(3),
-              image: DecorationImage(
+              image:  artModelType.urls.isNotEmpty ?
+               DecorationImage(
                 image: NetworkImage(artModelType.urls.first),
                 fit: BoxFit.cover
-              ),
+              )
+              :
+              null,
             ),
           ),
           Container(

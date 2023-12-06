@@ -1,9 +1,6 @@
 part of 'art_bloc.dart';
 
 abstract class ArtState {
-  // List<ArtModel> artList;
-
-  // ArtState({this.artList = const []});
 }
 
 // States - First data load

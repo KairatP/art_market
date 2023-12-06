@@ -34,8 +34,6 @@ abstract class ArtDeliveryService {
     String colorType,
     String panoType,
     List<File> picture,
-    // String country,
-    // String city,
   );
   Future deletePost(String postId);
 }

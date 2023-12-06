@@ -50,7 +50,6 @@ class ArtBloc extends Bloc<ArtEvent, ArtState> {
   Future<FutureOr<void>> _onArtPaginationEvent(
       ArtPaginationEvent event, Emitter<ArtState> emit) async {
     if (_pagination == true) {
-      _pagination = false;
       _pageNumber = _pageNumber + 1;
       try {
         ArtModel loadedArtData = await artService.getArtList(
