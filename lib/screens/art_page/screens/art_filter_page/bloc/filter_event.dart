@@ -23,6 +23,11 @@ class FilterCityDelateEvent extends FilterEvent {
   FilterCityDelateEvent({this.selectedCity = ''});
 }
 
+class FilterSearchEvent extends FilterEvent {
+  final String searchText;
+  FilterSearchEvent({required this.searchText});
+}
+
 class FilterSelectedUpdateEvent extends FilterEvent {}
 
 class FilterSelectedNavigateEvent extends FilterEvent {}

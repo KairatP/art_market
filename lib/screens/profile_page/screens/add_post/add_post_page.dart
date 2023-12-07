@@ -48,7 +48,8 @@ class AddPostPage extends StatelessWidget {
                     style: AppTextStyle.blackBodyTextStyle,
                   ),
                   onPressed: () {
-                    if (productBloc.state.images == null ||
+                    if (productBloc.state.images!.isEmpty ||
+                        productBloc.state.images == null ||
                         productBloc.state.price.isEmpty ||
                         productBloc.state.height.isEmpty ||
                         productBloc.state.width.isEmpty ||
@@ -60,7 +61,7 @@ class AddPostPage extends StatelessWidget {
                         builder: (BuildContext context) => CupertinoAlertDialog(
                           title: const Text('Error'),
                           content: const Text(
-                              'Please enter all required information'),
+                              'Please enter all required information, including picture'),
                           actions: [
                             CupertinoDialogAction(
                               isDefaultAction: true,

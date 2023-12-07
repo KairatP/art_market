@@ -11,6 +11,8 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
     on<FilterCountryAddEvent>(_onFilterCountryAddEvent);
     on<FilterCountryDelateEvent>(_onFilterCountryDelateEvent);
     on<FilterSelectedNavigateEvent>(_onFilterSelectedNavigateEvent);
+    on<FilterSearchEvent>(_onFilterSearchEvent);
+    
   }
 
   FutureOr<void> _onFilterInitialEvent(
@@ -28,17 +30,12 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
 
     myCountryList.add(event.selectedCountry);
     myCountryList.sort();
-
-    // print(event.selectedCountry);
-
-    // state.selectedCountry.add(event.selectedCountry);
     state.selectedCountry.sort();
 
     for (var element in state.selectedCountry) {
       state.iniCountry.remove(element);
     }
     state.iniCountry.insertAll(0, state.selectedCountry);
-    // state.iniCountry.remove(event.selectedCountry);
 
     emit(FilterState(
       iniCountry: state.iniCountry,
@@ -72,6 +69,12 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
       selectedCountry: state.selectedCountry,
       // selectedCity: state.selectedCity
     ));
+  }
+
+  FutureOr<void> _onFilterSearchEvent(FilterSearchEvent event, Emitter<FilterState> emit) {
+    var searchText = event.searchText.toLowerCase(); // Convert search text to lowercase for case-insensitive search
+    var searchList = coutry.where((element) => element.toLowerCase().contains(searchText)).toList();
+    emit(FilterState(iniCountry: searchList, selectedCountry: state.selectedCountry));
   }
 }
 

@@ -208,7 +208,7 @@ class EditPostPage extends StatelessWidget {
                                           ],
                                         )),
                               ),
-                        state.imagesUrls.length == 1 || state.images!.isNotEmpty
+                        state.imagesUrls.length == 1 || state.imagesUrls.isEmpty
                             ? const SizedBox()
                             : Padding(
                                 // Positioner part

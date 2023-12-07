@@ -31,7 +31,7 @@ class _ArtFilterPageState extends State<ArtFilterPage> {
         if (state is FilterSelectedActionState) {
           Navigator.pop(context, state.selectedCountry);
           if (state.selectedCountry.isNotEmpty) {
-            widget.bloc.add(FilterUserEvent(country: state.selectedCountry));           
+            widget.bloc.add(FilterUserEvent(country: state.selectedCountry));
           } else {
             artFirstLoad = true;
             widget.bloc.add(InitialOrderEvent());
@@ -67,6 +67,18 @@ class _ArtFilterPageState extends State<ArtFilterPage> {
                     const Text("Country:"),
                     const SizedBox(
                       height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        onChanged: (text) {
+                          filterBloc.add(FilterSearchEvent(searchText: text));
+                        },
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.search),
+                          hintText: 'Search...',
+                        ),
+                      ),
                     ),
                     Expanded(
                       // flex: 5,

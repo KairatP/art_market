@@ -36,9 +36,12 @@ class ProfileCell extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border.all(color: AppColors.mainColor),
               borderRadius: BorderRadius.circular(3),
-              image: DecorationImage(
-                  image: NetworkImage(profileModelType.urls.first),
-                  fit: BoxFit.cover),
+              image:profileModelType.urls.isNotEmpty ? DecorationImage(
+                image: NetworkImage(profileModelType.urls.first),
+                fit: BoxFit.cover
+              )
+              :
+              null,
             ),
           ),
           Container(
